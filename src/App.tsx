@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import Colleges from "./pages/Colleges";
 import UniversityColleges from "./pages/UniversityColleges";
 import CollegeDetails from "./pages/CollegeDetails";
+import CampusPulse from "./pages/CampusPulse";
+import Housing from "./pages/Housing";
 import Resources from "./pages/Resources";
 import Internships from "./pages/Internships";
 import Events from "./pages/Events";
@@ -25,6 +27,8 @@ const App = () => (
           <Route path="/colleges" element={<Colleges />} />
           <Route path="/colleges/:universityId" element={<UniversityColleges />} />
           <Route path="/college/:collegeId" element={<CollegeDetails />} />
+          <Route path="/pulse" element={<CampusPulse />} />
+          <Route path="/housing" element={<Housing />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/internships" element={<Internships />} />
           <Route path="/events" element={<Events />} />

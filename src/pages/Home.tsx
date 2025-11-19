@@ -177,7 +177,7 @@ const Home = () => {
               
               <div className="text-center px-4">
                 <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={50} fontSize={48} className="text-white" />
+                  <Counter value={50} fontSize={48} textColor="#ffffff" />
                   <span className="text-primary text-4xl ml-1">+</span>
                 </div>
                 <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Premium Institutions</div>
@@ -185,7 +185,7 @@ const Home = () => {
 
               <div className="text-center px-4">
                 <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={10000} places={[10000, 1000, 100, 10, 1]} fontSize={48} className="text-white" />
+                  <Counter value={10000} places={[10000, 1000, 100, 10, 1]} fontSize={48} textColor="#ffffff" />
                   <span className="text-primary text-4xl ml-1">+</span>
                 </div>
                 <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Ambitious Minds</div>
@@ -193,7 +193,7 @@ const Home = () => {
 
               <div className="text-center px-4">
                 <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={1000} places={[1000, 100, 10, 1]} fontSize={48} className="text-white" />
+                  <Counter value={1000} places={[1000, 100, 10, 1]} fontSize={48} textColor="#ffffff" />
                   <span className="text-primary text-4xl ml-1">+</span>
                 </div>
                 <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Curated Resources</div>
