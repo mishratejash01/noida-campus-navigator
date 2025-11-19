@@ -66,19 +66,24 @@ const Prism = ({
     const renderer = new Renderer({
       dpr,
       alpha: transparent,
-      antialias: false
+      antialias: true // Enabled antialias for smoother edges
     });
     const gl = renderer.gl;
     gl.disable(gl.DEPTH_TEST);
     gl.disable(gl.CULL_FACE);
-    gl.disable(gl.BLEND);
+    // Important: For additive blending on dark backgrounds
+    if (transparent) {
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    }
 
     Object.assign(gl.canvas.style, {
       position: 'absolute',
       inset: '0',
       width: '100%',
       height: '100%',
-      display: 'block'
+      display: 'block',
+      pointerEvents: 'none' // Pass through clicks
     });
     container.appendChild(gl.canvas);
 
@@ -176,7 +181,7 @@ const Prism = ({
           wob = mat2(c0, c1, c2, c0);
         }
 
-        const int STEPS = 100;
+        const int STEPS = 80; // Reduced steps slightly for performance
         for (int i = 0; i < STEPS; i++) {
           p = vec3(f, z);
           p.xz = p.xz * wob;
@@ -252,7 +257,8 @@ const Prism = ({
     };
     const ro = new ResizeObserver(resize);
     ro.observe(container);
-    resize();
+    // Force initial size
+    requestAnimationFrame(resize);
 
     const rotBuf = new Float32Array(9);
     const setMat3FromEuler = (yawY: number, pitchX: number, rollZ: number, out: Float32Array) => {
@@ -286,7 +292,6 @@ const Prism = ({
       return out;
     };
 
-    const NOISE_IS_ZERO = NOISE < 1e-6;
     let raf = 0;
     const t0 = performance.now();
     const startRAF = () => {
@@ -299,7 +304,6 @@ const Prism = ({
       raf = 0;
     };
 
-    // Simple default rotation params
     const wY = 0.5 * RSY;
     
     let yaw = 0,
@@ -309,7 +313,7 @@ const Prism = ({
       targetPitch = 0;
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-    const pointer = { x: 0, y: 0, inside: true };
+    const pointer = { x: 0, y: 0, inside: false };
     const onMove = (e: PointerEvent) => {
       const ww = Math.max(1, window.innerWidth);
       const wh = Math.max(1, window.innerHeight);
@@ -321,22 +325,12 @@ const Prism = ({
       pointer.y = Math.max(-1, Math.min(1, ny));
       pointer.inside = true;
     };
-    const onLeave = () => {
-      pointer.inside = false;
-    };
-    const onBlur = () => {
-      pointer.inside = false;
-    };
-
+    
     let onPointerMove: ((e: PointerEvent) => void) | null = null;
+    
     if (animationType === 'hover') {
-      onPointerMove = e => {
-        onMove(e);
-        startRAF();
-      };
+      onPointerMove = e => { onMove(e); };
       window.addEventListener('pointermove', onPointerMove, { passive: true });
-      window.addEventListener('mouseleave', onLeave);
-      window.addEventListener('blur', onBlur);
       program.uniforms.uUseBaseWobble.value = 0;
     } else if (animationType === '3drotate') {
       program.uniforms.uUseBaseWobble.value = 0;
@@ -348,100 +342,55 @@ const Prism = ({
       const time = (t - t0) * 0.001;
       program.uniforms.iTime.value = time;
 
+      // FORCE CONTINUE to ensure visibility
       let continueRAF = true;
 
       if (animationType === 'hover') {
         const maxPitch = 0.6 * HOVSTR;
         const maxYaw = 0.6 * HOVSTR;
-        targetYaw = (pointer.inside ? -pointer.x : 0) * maxYaw;
+        
+        // Always add a tiny bit of movement even if idle
+        const idleWobble = Math.sin(time * 0.5) * 0.05;
+
+        targetYaw = (pointer.inside ? -pointer.x : 0) * maxYaw + idleWobble;
         targetPitch = (pointer.inside ? pointer.y : 0) * maxPitch;
-        const prevYaw = yaw;
-        const prevPitch = pitch;
-        const prevRoll = roll;
-        yaw = lerp(prevYaw, targetYaw, INERT);
-        pitch = lerp(prevPitch, targetPitch, INERT);
-        roll = lerp(prevRoll, 0, 0.1);
+        
+        yaw = lerp(yaw, targetYaw, INERT);
+        pitch = lerp(pitch, targetPitch, INERT);
+        roll = lerp(roll, 0, 0.1);
+        
         program.uniforms.uRot.value = setMat3FromEuler(yaw, pitch, roll, rotBuf);
 
-        if (NOISE_IS_ZERO) {
-          const settled =
-            Math.abs(yaw - targetYaw) < 1e-4 && Math.abs(pitch - targetPitch) < 1e-4 && Math.abs(roll) < 1e-4;
-          if (settled) continueRAF = false;
-        }
       } else if (animationType === '3drotate') {
         const tScaled = time * TS;
-        // Simplified automatic rotation
         yaw = tScaled * wY;
         pitch = 0.2;
         roll = 0.1;
         program.uniforms.uRot.value = setMat3FromEuler(yaw, pitch, roll, rotBuf);
-        if (TS < 1e-6) continueRAF = false;
       } else {
-        // default "rotate" - mostly handled by shader wobble
-        rotBuf[0] = 1; rotBuf[1] = 0; rotBuf[2] = 0;
-        rotBuf[3] = 0; rotBuf[4] = 1; rotBuf[5] = 0;
-        rotBuf[6] = 0; rotBuf[7] = 0; rotBuf[8] = 1;
+        // Rotate logic handled by shader wobble mostly
+        rotBuf[0]=1; rotBuf[1]=0; rotBuf[2]=0;
+        rotBuf[3]=0; rotBuf[4]=1; rotBuf[5]=0;
+        rotBuf[6]=0; rotBuf[7]=0; rotBuf[8]=1;
         program.uniforms.uRot.value = rotBuf;
-        if (TS < 1e-6) continueRAF = false;
       }
 
       renderer.render({ scene: mesh });
-      if (continueRAF) {
-        raf = requestAnimationFrame(render);
-      } else {
-        raf = 0;
-      }
+      raf = requestAnimationFrame(render);
     };
 
-    if (suspendWhenOffscreen) {
-      // @ts-expect-error: custom property
-      const io = new IntersectionObserver(entries => {
-        const vis = entries.some(e => e.isIntersecting);
-        if (vis) startRAF();
-        else stopRAF();
-      });
-      io.observe(container);
-      startRAF();
-      // @ts-expect-error: custom property
-      container.__prismIO = io;
-    } else {
-      startRAF();
-    }
+    startRAF();
 
     return () => {
       stopRAF();
       ro.disconnect();
-      if (animationType === 'hover') {
-        if (onPointerMove) window.removeEventListener('pointermove', onPointerMove);
-        window.removeEventListener('mouseleave', onLeave);
-        window.removeEventListener('blur', onBlur);
-      }
-      if (suspendWhenOffscreen) {
-         // @ts-expect-error: custom property
-        const io = container.__prismIO;
-        if (io) io.disconnect();
-         // @ts-expect-error: custom property
-        delete container.__prismIO;
-      }
+      if (onPointerMove) window.removeEventListener('pointermove', onPointerMove);
       if (gl.canvas.parentElement === container) container.removeChild(gl.canvas);
     };
   }, [
-    height,
-    baseWidth,
-    animationType,
-    glow,
-    noise,
-    offset?.x,
-    offset?.y,
-    scale,
-    transparent,
-    hueShift,
-    colorFrequency,
-    timeScale,
-    hoverStrength,
-    inertia,
-    bloom,
-    suspendWhenOffscreen
+    height, baseWidth, animationType, glow, noise, offset?.x, offset?.y,
+    scale, transparent, hueShift, colorFrequency, timeScale, hoverStrength,
+    inertia, bloom, suspendWhenOffscreen
   ]);
 
   return <div className="prism-container" ref={containerRef} />;
