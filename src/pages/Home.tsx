@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Building2, Users, Award } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
+import Counter from "@/components/ui/Counter";
 
 const Home = () => {
   return (
@@ -128,7 +129,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Mission/Value Proposition Section - NEW */}
+      {/* Mission/Value Proposition Section */}
       <section className="container py-20 bg-background/50">
         <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
@@ -154,14 +155,13 @@ const Home = () => {
             </ul>
           </div>
           <div className="relative overflow-hidden rounded-xl h-96 bg-secondary/50 flex items-center justify-center border-2 border-dashed border-primary/20">
-            {/* Placeholder for an image or graphic */}
             <Users className="h-24 w-24 text-primary/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"></div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section - NEW */}
+      {/* Testimonials Section */}
       <section className="container pb-20">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-12">
@@ -209,27 +209,64 @@ const Home = () => {
         <div className="container">
           <div className="mx-auto max-w-4xl">
             <div className="grid gap-8 md:grid-cols-3">
+              
+              {/* Stats: Colleges */}
               <div className="text-center">
                 <div className="mb-2 flex items-center justify-center">
                   <Building2 className="h-8 w-8 text-primary" />
                 </div>
-                <div className="text-3xl font-bold text-foreground">50+</div>
+                <div className="flex items-center justify-center gap-0.5 text-3xl font-bold text-foreground">
+                  <Counter 
+                    value={50} 
+                    places={[10, 1]} 
+                    fontSize={30} 
+                    padding={0} 
+                    gap={0} 
+                    horizontalPadding={0}
+                  />
+                  <span>+</span>
+                </div>
                 <div className="text-sm text-muted-foreground">Colleges Listed</div>
               </div>
+
+              {/* Stats: Students */}
               <div className="text-center">
                 <div className="mb-2 flex items-center justify-center">
                   <Users className="h-8 w-8 text-accent" />
                 </div>
-                <div className="text-3xl font-bold text-foreground">10k+</div>
+                <div className="flex items-center justify-center gap-0.5 text-3xl font-bold text-foreground">
+                  <Counter 
+                    value={10000} 
+                    places={[10000, 1000, 100, 10, 1]} 
+                    fontSize={30} 
+                    padding={0} 
+                    gap={0} 
+                    horizontalPadding={0}
+                  />
+                  <span>+</span>
+                </div>
                 <div className="text-sm text-muted-foreground">Active Students</div>
               </div>
+
+              {/* Stats: Resources */}
               <div className="text-center">
                 <div className="mb-2 flex items-center justify-center">
                   <BookOpen className="h-8 w-8 text-primary" />
                 </div>
-                <div className="text-3xl font-bold text-foreground">1000+</div>
+                <div className="flex items-center justify-center gap-0.5 text-3xl font-bold text-foreground">
+                  <Counter 
+                    value={1000} 
+                    places={[1000, 100, 10, 1]} 
+                    fontSize={30} 
+                    padding={0} 
+                    gap={0} 
+                    horizontalPadding={0}
+                  />
+                  <span>+</span>
+                </div>
                 <div className="text-sm text-muted-foreground">Resources Available</div>
               </div>
+
             </div>
           </div>
         </div>
