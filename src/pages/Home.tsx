@@ -1,270 +1,202 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Building2, Users, Award } from "lucide-react";
+import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Building2, Users, Award, Star } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import Counter from "@/components/ui/Counter";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="container py-20">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm text-primary">
-            <Award className="h-4 w-4" />
-            Your Gateway to Noida's Premier Institutions
+      {/* Hero Section with Premium Glow */}
+      <section className="relative container py-32 overflow-hidden">
+        {/* Background Glow Effects */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] -z-10 opacity-50 animate-pulse" />
+        
+        <div className="mx-auto max-w-5xl text-center relative z-10">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-6 py-2 text-sm font-medium text-primary shadow-[0_0_15px_rgba(124,58,237,0.3)] backdrop-blur-sm">
+            <Star className="h-4 w-4 fill-primary" />
+            The Premium Gateway to Noida's Education
           </div>
-          <h1 className="mb-6 text-5xl font-bold leading-tight tracking-tight">
-            Navigate Your Academic Journey in{" "}
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
+          
+          <h1 className="mb-8 text-6xl md:text-7xl font-extrabold leading-tight tracking-tight">
+            Master Your Future in <br />
+            <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent drop-shadow-sm">
               Noida
             </span>
           </h1>
-          <p className="mb-8 text-xl text-muted-foreground">
-            Discover colleges, access resources, find internships, and register for events—all in one comprehensive platform
+          
+          <p className="mb-12 text-xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
+            Navigate the academic landscape with precision. Exclusive access to colleges, elite resources, and career-defining opportunities.
           </p>
-          <div className="flex items-center justify-center gap-4">
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link to="/colleges">
-              <Button size="lg" className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                Explore Colleges <ArrowRight className="h-4 w-4" />
+              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-white text-black hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                Explore Institutions <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Link to="/resources">
-              <Button size="lg" variant="outline" className="gap-2">
-                <BookOpen className="h-4 w-4" />
-                Browse Resources
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 backdrop-blur-md transition-all">
+                <BookOpen className="mr-2 h-5 w-5" />
+                Access Resources
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="container pb-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {/* Colleges Card */}
-            <Link to="/colleges" className="group">
-              <Card className="h-full transition-all hover:shadow-lg hover:border-primary/50">
-                <CardHeader>
-                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <GraduationCap className="h-6 w-6" />
-                  </div>
-                  <CardTitle>College Directory</CardTitle>
-                  <CardDescription>
-                    Browse through all affiliated universities and their colleges in Noida
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center text-sm font-medium text-primary group-hover:gap-2 transition-all">
-                    Explore Colleges <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* Resources Card */}
-            <Link to="/resources" className="group">
-              <Card className="h-full transition-all hover:shadow-lg hover:border-primary/50">
-                <CardHeader>
-                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                    <BookOpen className="h-6 w-6" />
-                  </div>
-                  <CardTitle>Academic Resources</CardTitle>
-                  <CardDescription>
-                    Access notes, PYQs, syllabus, and study materials for your program
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center text-sm font-medium text-accent group-hover:gap-2 transition-all">
-                    View Resources <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* Internships Card */}
-            <Link to="/internships" className="group">
-              <Card className="h-full transition-all hover:shadow-lg hover:border-primary/50">
-                <CardHeader>
-                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <Briefcase className="h-6 w-6" />
-                  </div>
-                  <CardTitle>Internship Portal</CardTitle>
-                  <CardDescription>
-                    Find and apply for internships from top companies across India
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center text-sm font-medium text-primary group-hover:gap-2 transition-all">
-                    Browse Opportunities <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {/* Events Card */}
-            <Link to="/events" className="group">
-              <Card className="h-full transition-all hover:shadow-lg hover:border-primary/50">
-                <CardHeader>
-                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                    <Calendar className="h-6 w-6" />
-                  </div>
-                  <CardTitle>Events & Workshops</CardTitle>
-                  <CardDescription>
-                    Register for upcoming events, workshops, and competitions
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center text-sm font-medium text-accent group-hover:gap-2 transition-all">
-                    View Events <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+      {/* Features Grid - Glassmorphism */}
+      <section className="container pb-32 relative z-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                to: "/colleges",
+                icon: GraduationCap,
+                title: "Elite Directory",
+                desc: "Curated list of Noida's finest affiliated universities and colleges.",
+                color: "text-purple-400"
+              },
+              {
+                to: "/resources",
+                icon: BookOpen,
+                title: "Premium Vault",
+                desc: "Exclusive access to notes, PYQs, and advanced study materials.",
+                color: "text-blue-400"
+              },
+              {
+                to: "/internships",
+                icon: Briefcase,
+                title: "Career Forge",
+                desc: "Connect with top-tier companies for internships and placements.",
+                color: "text-emerald-400"
+              },
+              {
+                to: "/events",
+                icon: Calendar,
+                title: "Exclusive Events",
+                desc: "Priority registration for workshops, hackathons, and summits.",
+                color: "text-amber-400"
+              }
+            ].map((item, index) => (
+              <Link to={item.to} key={index} className="group">
+                <Card className="h-full bg-secondary/20 border-white/5 backdrop-blur-sm hover:bg-secondary/40 hover:border-primary/30 transition-all duration-300 hover:-translate-y-2 shadow-lg">
+                  <CardHeader>
+                    <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-background/50 border border-white/10 ${item.color} shadow-inner group-hover:scale-110 transition-transform`}>
+                      <item.icon className="h-7 w-7" />
+                    </div>
+                    <CardTitle className="text-xl text-white group-hover:text-primary transition-colors">{item.title}</CardTitle>
+                    <CardDescription className="text-gray-400 leading-relaxed">
+                      {item.desc}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center text-sm font-medium text-primary/80 group-hover:text-primary group-hover:gap-3 transition-all">
+                      Explore <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Mission/Value Proposition Section */}
-      <section className="container py-20 bg-background/50">
-        <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h2 className="text-4xl font-bold tracking-tight">
-              Our <span className="text-primary">Mission</span>: Connecting Campus Life
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              We built Noida College Compass to eliminate the fragmentation of student resources. Our goal is to be the single, reliable source for everything academic and extracurricular in Noida.
-            </p>
-            <ul className="space-y-4 text-left">
-              <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 mt-1 text-primary shrink-0" />
-                <span className="font-medium">Simplify your college search:</span> Easy filtering and detailed profiles for every affiliated institution.
-              </li>
-              <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 mt-1 text-primary shrink-0" />
-                <span className="font-medium">Empower academic success:</span> Curated study materials and past year question papers (PYQs) at your fingertips.
-              </li>
-              <li className="flex items-start gap-3">
-                <ArrowRight className="h-5 w-5 mt-1 text-primary shrink-0" />
-                <span className="font-medium">Bridge the gap to industry:</span> Real-time internship opportunities from local and national companies.
-              </li>
-            </ul>
-          </div>
-          <div className="relative overflow-hidden rounded-xl h-96 bg-secondary/50 flex items-center justify-center border-2 border-dashed border-primary/20">
-            <Users className="h-24 w-24 text-primary/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="container pb-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">
-              What Students Are Saying
-            </h2>
-            <p className="text-lg text-muted-foreground mt-2">
-              Don't just take our word for it. See how we're helping students thrive.
-            </p>
-          </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl">Game Changer</CardTitle>
-                <CardDescription>— Rohan K., B.Tech Student</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-4">
-                "Finding past year papers used to be a nightmare. Now, I have everything in one place. My study time has been cut in half!"
-              </CardContent>
-            </Card>
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl">Easy to Navigate</CardTitle>
-                <CardDescription>— Priya S., MBA Aspirant</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-4">
-                "The college directory is so detailed. It helped me compare institutions quickly and make an informed decision about my application."
-              </CardContent>
-            </Card>
-            <Card className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-xl">Job Ready</CardTitle>
-                <CardDescription>— Vivek M., Final Year</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-4">
-                "I landed my first internship directly through the portal. The listings are high quality and constantly updated. Highly recommend!"
-              </CardContent>
-            </Card>
+      {/* Mission Section - Dark & Sleek */}
+      <section className="py-32 bg-black/40 border-y border-white/5 relative">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+        <div className="container relative z-10">
+          <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="text-5xl font-bold tracking-tight text-white">
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">Legacy</span>
+              </h2>
+              <p className="text-lg text-gray-400 font-light leading-loose">
+                Noida College Compass wasn't built to just list colleges. It was engineered to eliminate fragmentation. We provide a unified, high-performance ecosystem for the ambitious student.
+              </p>
+              <ul className="space-y-6">
+                {[
+                  "Intelligent Filtering & Analytics",
+                  "Curated High-Performance Content",
+                  "Industry-Direct Connections"
+                ].map((text, i) => (
+                  <li key={i} className="flex items-center gap-4 text-white/90 group">
+                    <div className="h-px w-8 bg-primary group-hover:w-12 transition-all"></div>
+                    <span className="text-lg">{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative h-[500px] w-full rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center group">
+              <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <Users className="h-32 w-32 text-white/20 group-hover:text-primary/50 transition-all duration-500 scale-110" />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="border-t bg-secondary/30 py-16">
-        <div className="container">
-          <div className="mx-auto max-w-4xl">
-            <div className="grid gap-8 md:grid-cols-3">
+      {/* Testimonials - Minimalist */}
+      <section className="container py-32">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl font-bold text-white mb-4">Voices of Excellence</h2>
+          <div className="h-1 w-20 bg-primary mx-auto rounded-full"></div>
+        </div>
+        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
+          {[
+            { quote: "The definitive platform for academic resources. Unmatched quality.", author: "Rohan K.", role: "B.Tech Scholar" },
+            { quote: "Navigation so intuitive, it feels like an extension of my own workflow.", author: "Priya S.", role: "MBA Aspirant" },
+            { quote: "Secured a premium internship within days. This ecosystem works.", author: "Vivek M.", role: "Final Year" }
+          ].map((t, i) => (
+            <Card key={i} className="bg-transparent border border-white/10 hover:border-primary/50 transition-all duration-500 hover:bg-white/5">
+              <CardHeader>
+                <div className="flex text-accent mb-4">
+                  {[...Array(5)].map((_, starI) => (
+                    <Star key={starI} className="h-4 w-4 fill-current" />
+                  ))}
+                </div>
+                <p className="text-lg text-gray-300 italic mb-6">"{t.quote}"</p>
+                <div className="border-t border-white/5 pt-4">
+                  <CardTitle className="text-base text-white">{t.author}</CardTitle>
+                  <CardDescription className="text-primary">{t.role}</CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats Section - High Contrast */}
+      <section className="border-t border-white/5 bg-black py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
+        <div className="container relative">
+          <div className="mx-auto max-w-5xl">
+            <div className="grid gap-12 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
               
-              {/* Stats: Colleges */}
-              <div className="text-center">
-                <div className="mb-2 flex items-center justify-center">
-                  <Building2 className="h-8 w-8 text-primary" />
+              <div className="text-center px-4">
+                <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
+                  <Counter value={50} fontSize={48} className="text-white" />
+                  <span className="text-primary text-4xl ml-1">+</span>
                 </div>
-                <div className="flex items-center justify-center gap-0.5 text-3xl font-bold text-foreground">
-                  <Counter 
-                    value={50} 
-                    places={[10, 1]} 
-                    fontSize={30} 
-                    padding={0} 
-                    gap={0} 
-                    horizontalPadding={0}
-                  />
-                  <span>+</span>
-                </div>
-                <div className="text-sm text-muted-foreground">Colleges Listed</div>
+                <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Premium Institutions</div>
               </div>
 
-              {/* Stats: Students */}
-              <div className="text-center">
-                <div className="mb-2 flex items-center justify-center">
-                  <Users className="h-8 w-8 text-accent" />
+              <div className="text-center px-4">
+                <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
+                  <Counter value={10000} places={[10000, 1000, 100, 10, 1]} fontSize={48} className="text-white" />
+                  <span className="text-primary text-4xl ml-1">+</span>
                 </div>
-                <div className="flex items-center justify-center gap-0.5 text-3xl font-bold text-foreground">
-                  <Counter 
-                    value={10000} 
-                    places={[10000, 1000, 100, 10, 1]} 
-                    fontSize={30} 
-                    padding={0} 
-                    gap={0} 
-                    horizontalPadding={0}
-                  />
-                  <span>+</span>
-                </div>
-                <div className="text-sm text-muted-foreground">Active Students</div>
+                <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Ambitious Minds</div>
               </div>
 
-              {/* Stats: Resources */}
-              <div className="text-center">
-                <div className="mb-2 flex items-center justify-center">
-                  <BookOpen className="h-8 w-8 text-primary" />
+              <div className="text-center px-4">
+                <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
+                  <Counter value={1000} places={[1000, 100, 10, 1]} fontSize={48} className="text-white" />
+                  <span className="text-primary text-4xl ml-1">+</span>
                 </div>
-                <div className="flex items-center justify-center gap-0.5 text-3xl font-bold text-foreground">
-                  <Counter 
-                    value={1000} 
-                    places={[1000, 100, 10, 1]} 
-                    fontSize={30} 
-                    padding={0} 
-                    gap={0} 
-                    horizontalPadding={0}
-                  />
-                  <span>+</span>
-                </div>
-                <div className="text-sm text-muted-foreground">Resources Available</div>
+                <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Curated Resources</div>
               </div>
 
             </div>
