@@ -1,55 +1,82 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Building2, Users, Award, Star } from "lucide-react";
+import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Users, Star, MousePointerClick, ChevronDown } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import Counter from "@/components/ui/Counter";
+import Prism from "@/components/ui/Prism";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <Navigation />
       
-      {/* Hero Section with Premium Glow */}
-      <section className="relative container py-32 overflow-hidden">
-        {/* Background Glow Effects */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] -z-10 opacity-50 animate-pulse" />
-        
-        <div className="mx-auto max-w-5xl text-center relative z-10">
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-6 py-2 text-sm font-medium text-primary shadow-[0_0_15px_rgba(124,58,237,0.3)] backdrop-blur-sm">
-            <Star className="h-4 w-4 fill-primary" />
-            The Premium Gateway to Noida's Education
+      {/* Full Screen Hero with 3D Prism */}
+      <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+        {/* 3D Prism Background */}
+        <div className="absolute inset-0 z-0">
+           <Prism 
+             animationType="hover" 
+             scale={4.5} 
+             hueShift={0.2} 
+             glow={1} 
+             noise={0.1}
+             hoverStrength={1.5}
+           />
+        </div>
+
+        {/* Gradient Overlay for Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background z-0 pointer-events-none" />
+
+        {/* Hero Content */}
+        <div className="container relative z-10 text-center px-4 mt-16">
+          <div 
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-primary backdrop-blur-md mb-8 animate-fade-in"
+          >
+            <Star className="h-3.5 w-3.5 fill-primary" />
+            <span className="tracking-wide uppercase text-[10px] md:text-xs font-bold">The Premier Academic Ecosystem</span>
           </div>
-          
-          <h1 className="mb-8 text-6xl md:text-7xl font-extrabold leading-tight tracking-tight">
-            Master Your Future in <br />
-            <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent drop-shadow-sm">
-              Noida
+
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 drop-shadow-2xl">
+            <span className="bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
+              NOIDA
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-primary via-purple-400 to-primary bg-clip-text text-transparent text-5xl md:text-7xl">
+              CAMPUS NAVIGATOR
             </span>
           </h1>
-          
-          <p className="mb-12 text-xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-            Navigate the academic landscape with precision. Exclusive access to colleges, elite resources, and career-defining opportunities.
+
+          <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-300 font-light mb-10 leading-relaxed drop-shadow-md">
+            Experience the future of student life. A unified digital compass connecting you to elite institutions, exclusive resources, and career-defining opportunities.
           </p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/colleges">
-              <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-white text-black hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                Explore Institutions <ArrowRight className="ml-2 h-5 w-5" />
+              <Button size="lg" className="h-14 px-8 text-base rounded-full bg-white text-black hover:bg-gray-200 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.3)] font-semibold">
+                Explore Directory
               </Button>
             </Link>
-            <Link to="/resources">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 backdrop-blur-md transition-all">
-                <BookOpen className="mr-2 h-5 w-5" />
-                Access Resources
+            <Link to="/pulse">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-base rounded-full border-white/20 bg-black/20 backdrop-blur-xl hover:bg-white/10 hover:border-white/40 transition-all text-white">
+                <MousePointerClick className="mr-2 h-4 w-4" />
+                Join Community
               </Button>
             </Link>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-10">
+          <div className="flex flex-col items-center gap-2 text-gray-400 opacity-70">
+            <span className="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+            <ChevronDown className="h-5 w-5" />
           </div>
         </div>
       </section>
 
       {/* Features Grid - Glassmorphism */}
-      <section className="container pb-32 relative z-10">
+      <section className="container py-24 relative z-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {[
@@ -177,7 +204,7 @@ const Home = () => {
               
               <div className="text-center px-4">
                 <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={50} fontSize={48} textColor="#ffffff" />
+                  <Counter value={50} fontSize={48} className="text-white" />
                   <span className="text-primary text-4xl ml-1">+</span>
                 </div>
                 <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Premium Institutions</div>
@@ -185,7 +212,7 @@ const Home = () => {
 
               <div className="text-center px-4">
                 <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={10000} places={[10000, 1000, 100, 10, 1]} fontSize={48} textColor="#ffffff" />
+                  <Counter value={10000} places={[10000, 1000, 100, 10, 1]} fontSize={48} className="text-white" />
                   <span className="text-primary text-4xl ml-1">+</span>
                 </div>
                 <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Ambitious Minds</div>
@@ -193,7 +220,7 @@ const Home = () => {
 
               <div className="text-center px-4">
                 <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={1000} places={[1000, 100, 10, 1]} fontSize={48} textColor="#ffffff" />
+                  <Counter value={1000} places={[1000, 100, 10, 1]} fontSize={48} className="text-white" />
                   <span className="text-primary text-4xl ml-1">+</span>
                 </div>
                 <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Curated Resources</div>
