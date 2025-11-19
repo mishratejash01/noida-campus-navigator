@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { GraduationCap, Github, Twitter, Linkedin, Mail, AlertTriangle, Heart } from "lucide-react";
+import { GraduationCap, Github, Twitter, Linkedin, Mail, AlertTriangle, Heart, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -26,7 +26,7 @@ export const Footer = () => {
               </span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-md leading-relaxed">
-              A student-led initiative to simplify campus life in Noida. We bridge the gap between official university updates and the real student experience.
+              The definitive independent platform for campus life in Noida. Bridging the gap between institutional updates and the real-world academic experience through data-driven insights.
             </p>
             <div className="flex gap-4">
               <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/10 hover:text-primary">
@@ -46,7 +46,7 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-6 text-white">Explore</h3>
+            <h3 className="font-semibold text-lg mb-6 text-white">Platform</h3>
             <ul className="space-y-4">
               <li>
                 <Link to="/colleges" className="text-muted-foreground hover:text-primary transition-colors">
@@ -55,49 +55,54 @@ export const Footer = () => {
               </li>
               <li>
                 <Link to="/resources" className="text-muted-foreground hover:text-primary transition-colors">
-                  Study Resources
+                  Resource Vault
                 </Link>
               </li>
               <li>
                 <Link to="/internships" className="text-muted-foreground hover:text-primary transition-colors">
-                  Internships
-                </Link>
-              </li>
-              <li>
-                <Link to="/events" className="text-muted-foreground hover:text-primary transition-colors">
-                  Events Calendar
+                  Career Portal
                 </Link>
               </li>
               <li>
                 <Link to="/housing" className="text-muted-foreground hover:text-primary transition-colors">
-                  PG & Hostels
+                  Housing & Hostels
+                </Link>
+              </li>
+              <li>
+                <Link to="/pulse" className="text-muted-foreground hover:text-primary transition-colors">
+                  Community Pulse
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Legal & Community */}
+          {/* Legal & Support */}
           <div>
-            <h3 className="font-semibold text-lg mb-6 text-white">Community</h3>
+            <h3 className="font-semibold text-lg mb-6 text-white">Legal & Support</h3>
             <ul className="space-y-4">
               <li>
-                <Link to="/pulse" className="text-muted-foreground hover:text-primary transition-colors">
-                  Campus Pulse (Feed)
-                </Link>
-              </li>
-              <li>
                 <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Report an Issue
+                  Privacy Policy
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Submit Resource
+                  Terms of Service
                 </a>
               </li>
               <li>
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs font-medium">
-                  <AlertTriangle className="h-3 w-3" /> Unofficial Portal
+                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                  Content Guidelines
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                  Report a Violation
+                </a>
+              </li>
+              <li>
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium">
+                  <ShieldCheck className="h-3 w-3" /> Independent Entity
                 </span>
               </li>
             </ul>
@@ -106,30 +111,26 @@ export const Footer = () => {
 
         <Separator className="my-12 bg-white/10" />
 
-        {/* Bottom Section: Disclaimer & Copyright */}
+        {/* Disclaimer Box - Critical for Liability */}
         <div className="space-y-8">
-          
-          {/* Disclaimer Box */}
           <div className="rounded-lg border border-white/5 bg-white/5 p-6 backdrop-blur-sm">
             <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-yellow-500" />
-              Important Disclaimer
+              Disclaimer & Liability Waiver
             </h4>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              <strong>Noida Campus Navigator is a student-run, open-source initiative and is NOT affiliated with any university, government body, or educational institution listed on this website.</strong> 
+            <p className="text-xs text-muted-foreground leading-relaxed text-justify">
+              <strong>Noida Campus Navigator is an independent, open-source community platform and is NOT affiliated, associated, authorized, endorsed by, or in any way officially connected with any university, government body, or educational institution listed on this website.</strong>
               <br /><br />
-              All content, including college details, resources, and internship listings, is crowdsourced or aggregated for informational purposes only. 
-              While we strive for accuracy, we cannot guarantee the validity of the information. Users are advised to verify details with official college websites before making financial or academic decisions. 
+              The information provided herein is for general informational purposes only. All content, including college data, study resources, and housing listings, is aggregated from public sources or user submissions. We make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the site.
               <br /><br />
-              <strong>User Content:</strong> Opinions expressed in the "Campus Pulse" or "Reviews" sections are solely those of the individual contributors and do not reflect the views of the platform administrators. 
-              We are not liable for any personal information you choose to share in public forums or with third-party listings (PGs/Internships). Use responsibly.
+              <strong>User Responsibility:</strong> Any reliance you place on such information is strictly at your own risk. We shall not be held liable for any loss or damage of any kind incurred as a result of the use of the site or reliance on any information provided. Users are strongly advised to verify all details (including fees, admission criteria, and housing costs) directly with the respective official authorities before taking any action.
             </p>
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© {currentYear} Noida Campus Navigator. Open Source under MIT License.</p>
+            <p>© {currentYear} Noida Campus Navigator. All Rights Reserved.</p>
             <p className="flex items-center gap-1">
-              Made with <Heart className="h-4 w-4 text-red-500 fill-red-500 animate-pulse" /> by Students, for Students.
+              Made with <Heart className="h-4 w-4 text-primary fill-primary animate-pulse" /> for the Community.
             </p>
           </div>
         </div>
