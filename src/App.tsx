@@ -4,15 +4,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import Colleges from "./pages/Colleges";
-import UniversityColleges from "./pages/UniversityColleges";
 import CollegeDetails from "./pages/CollegeDetails";
-import CampusPulse from "./pages/CampusPulse";
-import Housing from "./pages/Housing";
 import Resources from "./pages/Resources";
 import Internships from "./pages/Internships";
 import Events from "./pages/Events";
-import NotFound from "./pages/NotFound";
+import Housing from "./pages/Housing";
+import CampusPulse from "./pages/CampusPulse";
+import { Footer } from "./components/Footer"; // Import the Footer
 
 const queryClient = new QueryClient();
 
@@ -22,19 +22,23 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/colleges" element={<Colleges />} />
-          <Route path="/colleges/:universityId" element={<UniversityColleges />} />
-          <Route path="/college/:collegeId" element={<CollegeDetails />} />
-          <Route path="/pulse" element={<CampusPulse />} />
-          <Route path="/housing" element={<Housing />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/internships" element={<Internships />} />
-          <Route path="/events" element={<Events />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div className="flex min-h-screen flex-col">
+          <div className="flex-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/colleges" element={<Colleges />} />
+              <Route path="/college/:id" element={<CollegeDetails />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/internships" element={<Internships />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/housing" element={<Housing />} />
+              <Route path="/pulse" element={<CampusPulse />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+          {/* Footer added here so it sits at the bottom of all pages */}
+          <Footer />
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
