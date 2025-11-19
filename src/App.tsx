@@ -6,13 +6,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Colleges from "./pages/Colleges";
+import UniversityColleges from "./pages/UniversityColleges"; // Imported missing page
 import CollegeDetails from "./pages/CollegeDetails";
 import Resources from "./pages/Resources";
 import Internships from "./pages/Internships";
 import Events from "./pages/Events";
 import Housing from "./pages/Housing";
 import CampusPulse from "./pages/CampusPulse";
-import { Footer } from "./components/Footer"; // Import the Footer
+import { Footer } from "./components/Footer"; 
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,8 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/colleges" element={<Colleges />} />
+              {/* Added Route for University-specific colleges */}
+              <Route path="/colleges/:universityId" element={<UniversityColleges />} />
               <Route path="/college/:id" element={<CollegeDetails />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/internships" element={<Internships />} />
