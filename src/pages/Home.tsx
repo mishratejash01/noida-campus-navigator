@@ -15,21 +15,20 @@ const Home = () => {
       <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-background">
         
         {/* LAYER 0: 3D Prism Background */}
-        {/* We add a subtle purple radial gradient fallback in case OGL takes a moment to load */}
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background to-background">
+        <div className="absolute inset-0 z-0">
            <Prism 
              animationType="hover" 
-             scale={4.5} 
+             scale={3.0} 
              hueShift={0.2} 
-             glow={1.2}        // Increased glow for visibility
-             noise={0.15}      // Increased noise for texture
+             glow={1.4}
+             noise={0.15}
              hoverStrength={1.5}
            />
         </div>
 
         {/* LAYER 10: Gradient Overlay for Text Readability */}
-        {/* Made significantly lighter so it doesn't hide the Prism */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/80 z-10 pointer-events-none" />
+        {/* This fades from transparent to background color at the bottom */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background z-10 pointer-events-none" />
 
         {/* LAYER 20: Hero Content */}
         <div className="container relative z-20 text-center px-4 mt-16">
