@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Colleges from "./pages/Colleges";
-import UniversityColleges from "./pages/UniversityColleges"; // Added this import
+import UniversityColleges from "./pages/UniversityColleges"; // <--- IMPORT THIS
 import CollegeDetails from "./pages/CollegeDetails";
 import Resources from "./pages/Resources";
 import Internships from "./pages/Internships";
@@ -28,8 +28,11 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/colleges" element={<Colleges />} />
-              {/* This was the missing route causing the 404 */}
+              
+              {/* 👇 THIS IS THE MISSING LINE CAUSING THE 404 👇 */}
               <Route path="/colleges/:universityId" element={<UniversityColleges />} />
+              {/* 👆 This accepts ANY university ID from your backend (aktu, du, etc.) 👆 */}
+
               <Route path="/college/:id" element={<CollegeDetails />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/internships" element={<Internships />} />
