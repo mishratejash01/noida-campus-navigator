@@ -1,5 +1,5 @@
-import { motion, useSpring, useTransform, MotionValue } from 'motion/react';
-import { useEffect } from 'react';
+import { motion, useSpring, useTransform, useInView, MotionValue } from 'motion/react';
+import { useEffect, useRef } from 'react';
 import './Counter.css';
 
 function Number({ mv, number, height }: { mv: MotionValue<number>; number: number; height: number }) {
@@ -19,12 +19,20 @@ function Number({ mv, number, height }: { mv: MotionValue<number>; number: numbe
   );
 }
 
-function Digit({ place, value, height, digitStyle }: { place: number; value: number; height: number; digitStyle?: React.CSSProperties }) {
+function Digit({ place, value, height, digitStyle, isInView }: { place: number; value: number; height: number; digitStyle?: React.CSSProperties; isInView: boolean }) {
   let valueRoundedToPlace = Math.floor(value / place);
-  let animatedValue = useSpring(valueRoundedToPlace);
+  // Start from 0 so it animates UP to the target
+  let animatedValue = useSpring(0, {
+    bounce: 0,
+    duration: 2000 // Adjustable duration
+  });
+
   useEffect(() => {
-    animatedValue.set(valueRoundedToPlace);
-  }, [animatedValue, valueRoundedToPlace]);
+    if (isInView) {
+      animatedValue.set(valueRoundedToPlace);
+    }
+  }, [animatedValue, valueRoundedToPlace, isInView]);
+
   return (
     <div className="counter-digit" style={{ height, ...digitStyle }}>
       {Array.from({ length: 10 }, (_, i) => (
@@ -74,6 +82,10 @@ export default function Counter({
   bottomGradientStyle
 }: CounterProps) {
   const height = fontSize + padding;
+  const ref = useRef(null);
+  // triggers when element is visible in viewport
+  const isInView = useInView(ref, { once: true, margin: "-50px" }); 
+
   const defaultCounterStyle = {
     fontSize,
     gap: gap,
@@ -91,11 +103,19 @@ export default function Counter({
     height: gradientHeight,
     background: `linear-gradient(to top, ${gradientFrom}, ${gradientTo})`
   };
+
   return (
-    <div className="counter-container" style={containerStyle}>
+    <div className="counter-container" style={containerStyle} ref={ref}>
       <div className="counter-counter" style={{ ...defaultCounterStyle, ...counterStyle }}>
         {places.map(place => (
-          <Digit key={place} place={place} value={value} height={height} digitStyle={digitStyle} />
+          <Digit 
+            key={place} 
+            place={place} 
+            value={value} 
+            height={height} 
+            digitStyle={digitStyle}
+            isInView={isInView} 
+          />
         ))}
       </div>
       <div className="gradient-container">
