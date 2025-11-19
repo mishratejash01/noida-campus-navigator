@@ -23,7 +23,7 @@ interface PrismProps {
 const Prism = ({
   height = 3.5,
   baseWidth = 5.5,
-  animationType = 'rotate',
+  animationType = 'hover', // Default to hover for interaction
   glow = 1,
   offset = { x: 0, y: 0 },
   noise = 0.5,
@@ -55,9 +55,7 @@ const Prism = ({
     const HUE = hueShift || 0;
     const CFREQ = Math.max(0.0, colorFrequency || 1);
     const BLOOM = Math.max(0.0, bloom || 1);
-    const RSX = 1;
     const RSY = 1;
-    const RSZ = 1;
     const TS = Math.max(0, timeScale || 1);
     const HOVSTR = Math.max(0, hoverStrength || 1);
     const INERT = Math.max(0, Math.min(1, inertia || 0.12));
@@ -66,12 +64,13 @@ const Prism = ({
     const renderer = new Renderer({
       dpr,
       alpha: transparent,
-      antialias: true // Enabled antialias for smoother edges
+      antialias: true // Turn on antialias for smoother lines
     });
     const gl = renderer.gl;
     gl.disable(gl.DEPTH_TEST);
     gl.disable(gl.CULL_FACE);
-    // Important: For additive blending on dark backgrounds
+    
+    // Enable Additive Blending for that "Glow" effect
     if (transparent) {
       gl.enable(gl.BLEND);
       gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -83,7 +82,7 @@ const Prism = ({
       width: '100%',
       height: '100%',
       display: 'block',
-      pointerEvents: 'none' // Pass through clicks
+      pointerEvents: 'none' // Let clicks pass through
     });
     container.appendChild(gl.canvas);
 
@@ -162,13 +161,10 @@ const Prism = ({
 
       void main(){
         vec2 f = (gl_FragCoord.xy - 0.5 * iResolution.xy - uOffsetPx) * uPxScale;
-
         float z = 5.0;
         float d = 0.0;
-
         vec3 p;
         vec4 o = vec4(0.0);
-
         float centerShift = uCenterShift;
         float cf = uColorFreq;
 
@@ -181,7 +177,7 @@ const Prism = ({
           wob = mat2(c0, c1, c2, c0);
         }
 
-        const int STEPS = 80; // Reduced steps slightly for performance
+        const int STEPS = 60; // Reduced steps slightly for performance
         for (int i = 0; i < STEPS; i++) {
           p = vec3(f, z);
           p.xz = p.xz * wob;
@@ -194,15 +190,18 @@ const Prism = ({
         }
 
         o = tanh4(o * o * (uGlow * uBloom) / 1e5);
-
         vec3 col = o.rgb;
+        
+        // Add Noise
         float n = rand(gl_FragCoord.xy + vec2(iTime));
         col += (n - 0.5) * uNoise;
         col = clamp(col, 0.0, 1.0);
 
+        // Saturation
         float L = dot(col, vec3(0.2126, 0.7152, 0.0722));
         col = clamp(mix(vec3(L), col, uSaturation), 0.0, 1.0);
 
+        // Hue Shift
         if(abs(uHueShift) > 0.0001){
           col = clamp(hueRotation(uHueShift) * col, 0.0, 1.0);
         }
@@ -257,43 +256,32 @@ const Prism = ({
     };
     const ro = new ResizeObserver(resize);
     ro.observe(container);
-    // Force initial size
+    
+    // Trigger initial resize immediately
     requestAnimationFrame(resize);
 
     const rotBuf = new Float32Array(9);
     const setMat3FromEuler = (yawY: number, pitchX: number, rollZ: number, out: Float32Array) => {
-      const cy = Math.cos(yawY),
-        sy = Math.sin(yawY);
-      const cx = Math.cos(pitchX),
-        sx = Math.sin(pitchX);
-      const cz = Math.cos(rollZ),
-        sz = Math.sin(rollZ);
-      const r00 = cy * cz + sy * sx * sz;
-      const r01 = -cy * sz + sy * sx * cz;
-      const r02 = sy * cx;
-
-      const r10 = cx * sz;
-      const r11 = cx * cz;
-      const r12 = -sx;
-
-      const r20 = -sy * cz + cy * sx * sz;
-      const r21 = sy * sz + cy * sx * cz;
-      const r22 = cy * cx;
-
-      out[0] = r00;
-      out[1] = r10;
-      out[2] = r20;
-      out[3] = r01;
-      out[4] = r11;
-      out[5] = r21;
-      out[6] = r02;
-      out[7] = r12;
-      out[8] = r22;
+      const cy = Math.cos(yawY), sy = Math.sin(yawY);
+      const cx = Math.cos(pitchX), sx = Math.sin(pitchX);
+      const cz = Math.cos(rollZ), sz = Math.sin(rollZ);
+      
+      out[0] = cy * cz + sy * sx * sz;
+      out[1] = cx * sz;
+      out[2] = -sy * cz + cy * sx * sz;
+      out[3] = -cy * sz + sy * sx * cz;
+      out[4] = cx * cz;
+      out[5] = sy * sz + cy * sx * cz;
+      out[6] = sy * cx;
+      out[7] = -sx;
+      out[8] = cy * cx;
       return out;
     };
 
+    // --- ANIMATION LOOP ---
     let raf = 0;
     const t0 = performance.now();
+    
     const startRAF = () => {
       if (raf) return;
       raf = requestAnimationFrame(render);
@@ -305,12 +293,8 @@ const Prism = ({
     };
 
     const wY = 0.5 * RSY;
-    
-    let yaw = 0,
-      pitch = 0,
-      roll = 0;
-    let targetYaw = 0,
-      targetPitch = 0;
+    let yaw = 0, pitch = 0, roll = 0;
+    let targetYaw = 0, targetPitch = 0;
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     const pointer = { x: 0, y: 0, inside: false };
@@ -325,34 +309,22 @@ const Prism = ({
       pointer.y = Math.max(-1, Math.min(1, ny));
       pointer.inside = true;
     };
-    
-    let onPointerMove: ((e: PointerEvent) => void) | null = null;
-    
-    if (animationType === 'hover') {
-      onPointerMove = e => { onMove(e); };
-      window.addEventListener('pointermove', onPointerMove, { passive: true });
-      program.uniforms.uUseBaseWobble.value = 0;
-    } else if (animationType === '3drotate') {
-      program.uniforms.uUseBaseWobble.value = 0;
-    } else {
-      program.uniforms.uUseBaseWobble.value = 1;
-    }
+
+    // Always listen to pointer
+    window.addEventListener('pointermove', onMove, { passive: true });
 
     const render = (t: number) => {
       const time = (t - t0) * 0.001;
       program.uniforms.iTime.value = time;
 
-      // FORCE CONTINUE to ensure visibility
-      let continueRAF = true;
-
       if (animationType === 'hover') {
         const maxPitch = 0.6 * HOVSTR;
         const maxYaw = 0.6 * HOVSTR;
         
-        // Always add a tiny bit of movement even if idle
-        const idleWobble = Math.sin(time * 0.5) * 0.05;
-
-        targetYaw = (pointer.inside ? -pointer.x : 0) * maxYaw + idleWobble;
+        // ALWAYS add a base wobble so it never disappears completely
+        const wobble = Math.sin(time * 0.5) * 0.1;
+        
+        targetYaw = (pointer.inside ? -pointer.x : 0) * maxYaw + wobble;
         targetPitch = (pointer.inside ? pointer.y : 0) * maxPitch;
         
         yaw = lerp(yaw, targetYaw, INERT);
@@ -360,22 +332,16 @@ const Prism = ({
         roll = lerp(roll, 0, 0.1);
         
         program.uniforms.uRot.value = setMat3FromEuler(yaw, pitch, roll, rotBuf);
-
-      } else if (animationType === '3drotate') {
-        const tScaled = time * TS;
-        yaw = tScaled * wY;
-        pitch = 0.2;
-        roll = 0.1;
-        program.uniforms.uRot.value = setMat3FromEuler(yaw, pitch, roll, rotBuf);
+        program.uniforms.uUseBaseWobble.value = 0;
       } else {
-        // Rotate logic handled by shader wobble mostly
-        rotBuf[0]=1; rotBuf[1]=0; rotBuf[2]=0;
-        rotBuf[3]=0; rotBuf[4]=1; rotBuf[5]=0;
-        rotBuf[6]=0; rotBuf[7]=0; rotBuf[8]=1;
-        program.uniforms.uRot.value = rotBuf;
+        // Standard rotation fallback
+        yaw = time * wY;
+        program.uniforms.uRot.value = setMat3FromEuler(yaw, 0.2, 0.1, rotBuf);
+        program.uniforms.uUseBaseWobble.value = 1;
       }
 
       renderer.render({ scene: mesh });
+      // CONTINUOUS LOOP: Never stop
       raf = requestAnimationFrame(render);
     };
 
@@ -384,7 +350,7 @@ const Prism = ({
     return () => {
       stopRAF();
       ro.disconnect();
-      if (onPointerMove) window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointermove', onMove);
       if (gl.canvas.parentElement === container) container.removeChild(gl.canvas);
     };
   }, [
