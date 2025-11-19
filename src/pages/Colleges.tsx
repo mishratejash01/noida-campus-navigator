@@ -1,99 +1,116 @@
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building2, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Navigation } from "@/components/Navigation";
+import { supabase } from "@/integrations/supabase/client";
+import { Building2, ExternalLink, MapPin } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const universities = [
-  {
-    id: "aktu", // This is the ID passed to the URL
-    name: "Dr. A.P.J. Abdul Kalam Technical University",
-    shortName: "AKTU",
-    location: "Lucknow, Uttar Pradesh",
-    type: "State Technical University",
-    description: "Formerly UPtu, is a public collegiate university in Lucknow.",
-  },
-  {
-    id: "du",
-    name: "University of Delhi",
-    shortName: "DU",
-    location: "New Delhi",
-    type: "Central University",
-    description: "A premier university of the country with a venerable legacy.",
-  },
-  {
-    id: "ipu",
-    name: "Guru Gobind Singh Indraprastha University",
-    shortName: "IPU",
-    location: "New Delhi",
-    type: "State University",
-    description: "Established by the Govt. of NCT of Delhi.",
-  },
-  {
-    id: "amity",
-    name: "Amity University",
-    shortName: "Amity",
-    location: "Noida, Uttar Pradesh",
-    type: "Private University",
-    description: "A private research university in India.",
-  },
-];
+interface University {
+  id: string;
+  name: string;
+  acronym: string;
+  description: string | null;
+  website_url: string | null;
+}
 
 const Colleges = () => {
+  const [universities, setUniversities] = useState<University[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchUniversities();
+  }, []);
+
+  const fetchUniversities = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("universities")
+        .select("*")
+        .order("name");
+
+      if (error) throw error;
+      setUniversities(data || []);
+    } catch (error) {
+      console.error("Error fetching universities:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
-      <main className="flex-grow container mx-auto px-4 py-24">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-            Browse by University
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Select a university to view its affiliated colleges and campus details.
+      <div className="container py-12">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2">College Directory</h1>
+          <p className="text-lg text-muted-foreground">
+            Explore colleges by their affiliated universities in Noida
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {universities.map((uni) => (
-            <Link key={uni.id} to={`/colleges/${uni.id}`}>
-              <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-primary/10 group cursor-pointer">
+        {loading ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i}>
                 <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
-                      <Building2 className="w-6 h-6 text-primary" />
-                    </div>
-                    <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full">
-                      {uni.shortName}
-                    </span>
-                  </div>
-                  <CardTitle className="mt-4 text-xl group-hover:text-primary transition-colors">
-                    {uni.name}
-                  </CardTitle>
+                  <Skeleton className="h-6 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-1/2" />
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    <p className="text-muted-foreground text-sm line-clamp-2">
-                      {uni.description}
-                    </p>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <span className="border-l-2 border-primary/20 pl-2">
-                        {uni.type}
-                      </span>
-                    </div>
-                    <div className="flex items-center text-primary font-medium text-sm pt-2">
-                      View Affiliated Colleges 
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-2/3" />
                 </CardContent>
               </Card>
-            </Link>
-          ))}
-        </div>
-      </main>
-      
-      <Footer />
+            ))}
+          </div>
+        ) : universities.length === 0 ? (
+          <Card className="text-center py-12">
+            <CardContent>
+              <Building2 className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-lg font-semibold mb-2">No Universities Found</h3>
+              <p className="text-muted-foreground">
+                Universities will appear here once they are added to the system.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {universities.map((university) => (
+              <Link key={university.id} to={`/colleges/${university.id}`}>
+                <Card className="h-full transition-all hover:shadow-lg hover:border-primary/50 group">
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        <Building2 className="h-6 w-6" />
+                      </div>
+                      {university.website_url && (
+                        <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      )}
+                    </div>
+                    <CardTitle className="mt-4">{university.name}</CardTitle>
+                    <CardDescription className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {university.acronym}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {university.description && (
+                      <p className="text-sm text-muted-foreground line-clamp-3">
+                        {university.description}
+                      </p>
+                    )}
+                    <div className="mt-4 text-sm font-medium text-primary">
+                      View Affiliated Colleges →
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
