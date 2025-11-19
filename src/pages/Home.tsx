@@ -15,20 +15,21 @@ const Home = () => {
       <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-background">
         
         {/* LAYER 0: 3D Prism Background */}
-        <div className="absolute inset-0 z-0">
+        {/* Added a radial gradient fallback in case 3D takes time to load */}
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-background to-background">
            <Prism 
              animationType="hover" 
-             scale={3.0} 
+             scale={4.0} 
              hueShift={0.2} 
-             glow={1.4}
-             noise={0.15}
+             glow={1.5}        // High glow for visibility
+             noise={0.1}
              hoverStrength={1.5}
            />
         </div>
 
-        {/* LAYER 10: Gradient Overlay for Text Readability */}
-        {/* This fades from transparent to background color at the bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background z-10 pointer-events-none" />
+        {/* LAYER 10: Gradient Overlay */}
+        {/* Gradient fades from transparent (top) to background (bottom) to blend smoothly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/5 to-background z-10 pointer-events-none" />
 
         {/* LAYER 20: Hero Content */}
         <div className="container relative z-20 text-center px-4 mt-16">
@@ -77,7 +78,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Grid - Glassmorphism */}
+      {/* Features Grid */}
       <section className="container py-24 relative z-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -134,7 +135,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Mission Section - Dark & Sleek */}
+      {/* Mission Section */}
       <section className="py-32 bg-black/40 border-y border-white/5 relative">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
         <div className="container relative z-10">
@@ -167,7 +168,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Testimonials - Minimalist */}
+      {/* Testimonials */}
       <section className="container py-32">
         <div className="text-center mb-20">
           <h2 className="text-4xl font-bold text-white mb-4">Voices of Excellence</h2>
@@ -197,7 +198,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Section - High Contrast */}
+      {/* Stats Section */}
       <section className="border-t border-white/5 bg-black py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
         <div className="container relative">
