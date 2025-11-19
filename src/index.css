@@ -2,105 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* Premium Dark Theme Variables */
+    --background: 240 10% 3.9%; /* Very dark, almost black */
+    --foreground: 0 0% 98%;     /* Pure white text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card: 240 10% 3.9%;       /* Match background for seamless look */
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 263.4 70% 50.4%; /* Royal Violet/Purple */
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 240 3.7% 15.9%; /* Dark gray for secondary elements */
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --accent: 24 95% 58%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 47 95% 55%;       /* Gold accent for premium feel */
+    --accent-foreground: 144.9 80.4% 10%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
 
     --radius: 0.75rem;
-    
-    /* Custom design tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(238 77% 62%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(24 95% 58%) 0%, hsl(31 100% 65%) 100%);
-    --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 217 33% 17%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 24 95% 58%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 221 83% 53%;
-    
-    --gradient-hero: linear-gradient(135deg, hsl(221 83% 45%) 0%, hsl(238 77% 52%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(24 95% 50%) 0%, hsl(31 100% 55%) 100%);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -108,8 +41,27 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    /* Add a subtle noise texture or gradient for immersion */
+    background-image: radial-gradient(circle at top center, rgba(56, 31, 102, 0.15), transparent 40%);
   }
+}
+
+/* Custom Scrollbar for that premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--secondary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
 }
