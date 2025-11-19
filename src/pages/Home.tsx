@@ -12,24 +12,27 @@ const Home = () => {
       <Navigation />
       
       {/* Full Screen Hero with 3D Prism */}
-      <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center">
-        {/* 3D Prism Background */}
-        <div className="absolute inset-0 z-0">
+      <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-background">
+        
+        {/* LAYER 0: 3D Prism Background */}
+        {/* We add a subtle purple radial gradient fallback in case OGL takes a moment to load */}
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background to-background">
            <Prism 
              animationType="hover" 
              scale={4.5} 
              hueShift={0.2} 
-             glow={1} 
-             noise={0.1}
+             glow={1.2}        // Increased glow for visibility
+             noise={0.15}      // Increased noise for texture
              hoverStrength={1.5}
            />
         </div>
 
-        {/* Gradient Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background z-0 pointer-events-none" />
+        {/* LAYER 10: Gradient Overlay for Text Readability */}
+        {/* Made significantly lighter so it doesn't hide the Prism */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/80 z-10 pointer-events-none" />
 
-        {/* Hero Content */}
-        <div className="container relative z-10 text-center px-4 mt-16">
+        {/* LAYER 20: Hero Content */}
+        <div className="container relative z-20 text-center px-4 mt-16">
           <div 
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-primary backdrop-blur-md mb-8 animate-fade-in"
           >
@@ -67,7 +70,7 @@ const Home = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-10">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20">
           <div className="flex flex-col items-center gap-2 text-gray-400 opacity-70">
             <span className="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
             <ChevronDown className="h-5 w-5" />
