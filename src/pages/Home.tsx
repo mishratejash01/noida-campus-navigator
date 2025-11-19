@@ -128,6 +128,82 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Mission/Value Proposition Section - NEW */}
+      <section className="container py-20 bg-background/50">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <h2 className="text-4xl font-bold tracking-tight">
+              Our <span className="text-primary">Mission</span>: Connecting Campus Life
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              We built Noida College Compass to eliminate the fragmentation of student resources. Our goal is to be the single, reliable source for everything academic and extracurricular in Noida.
+            </p>
+            <ul className="space-y-4 text-left">
+              <li className="flex items-start gap-3">
+                <ArrowRight className="h-5 w-5 mt-1 text-primary shrink-0" />
+                <span className="font-medium">Simplify your college search:</span> Easy filtering and detailed profiles for every affiliated institution.
+              </li>
+              <li className="flex items-start gap-3">
+                <ArrowRight className="h-5 w-5 mt-1 text-primary shrink-0" />
+                <span className="font-medium">Empower academic success:</span> Curated study materials and past year question papers (PYQs) at your fingertips.
+              </li>
+              <li className="flex items-start gap-3">
+                <ArrowRight className="h-5 w-5 mt-1 text-primary shrink-0" />
+                <span className="font-medium">Bridge the gap to industry:</span> Real-time internship opportunities from local and national companies.
+              </li>
+            </ul>
+          </div>
+          <div className="relative overflow-hidden rounded-xl h-96 bg-secondary/50 flex items-center justify-center border-2 border-dashed border-primary/20">
+            {/* Placeholder for an image or graphic */}
+            <Users className="h-24 w-24 text-primary/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section - NEW */}
+      <section className="container pb-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight">
+              What Students Are Saying
+            </h2>
+            <p className="text-lg text-muted-foreground mt-2">
+              Don't just take our word for it. See how we're helping students thrive.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <Card className="hover:shadow-xl transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl">Game Changer</CardTitle>
+                <CardDescription>— Rohan K., B.Tech Student</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-4">
+                "Finding past year papers used to be a nightmare. Now, I have everything in one place. My study time has been cut in half!"
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-xl transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl">Easy to Navigate</CardTitle>
+                <CardDescription>— Priya S., MBA Aspirant</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-4">
+                "The college directory is so detailed. It helped me compare institutions quickly and make an informed decision about my application."
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-xl transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl">Job Ready</CardTitle>
+                <CardDescription>— Vivek M., Final Year</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-4">
+                "I landed my first internship directly through the portal. The listings are high quality and constantly updated. Highly recommend!"
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="border-t bg-secondary/30 py-16">
         <div className="container">
