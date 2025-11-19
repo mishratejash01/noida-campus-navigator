@@ -258,6 +258,39 @@ export type Database = {
         }
         Relationships: []
       }
+      housing: {
+        Row: {
+          amenities: string[]
+          created_at: string
+          id: string
+          image_url: string | null
+          location: string
+          name: string
+          price_range: string
+          rating: number | null
+        }
+        Insert: {
+          amenities?: string[]
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          location: string
+          name: string
+          price_range: string
+          rating?: number | null
+        }
+        Update: {
+          amenities?: string[]
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          location?: string
+          name?: string
+          price_range?: string
+          rating?: number | null
+        }
+        Relationships: []
+      }
       internship_applicants: {
         Row: {
           application_date: string
@@ -368,6 +401,33 @@ export type Database = {
         }
         Relationships: []
       }
+      posts: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          is_anonymous: boolean
+          upvotes: number
+        }
+        Insert: {
+          category?: string
+          content: string
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          upvotes?: number
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          upvotes?: number
+        }
+        Relationships: []
+      }
       programs: {
         Row: {
           acronym: string
@@ -400,6 +460,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      reviews: {
+        Row: {
+          college_id: string
+          comment: string | null
+          created_at: string
+          id: string
+          rating_crowd: number | null
+          rating_faculty: number | null
+          rating_infrastructure: number | null
+          rating_overall: number
+          user_id: string | null
+        }
+        Insert: {
+          college_id: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          rating_crowd?: number | null
+          rating_faculty?: number | null
+          rating_infrastructure?: number | null
+          rating_overall: number
+          user_id?: string | null
+        }
+        Update: {
+          college_id?: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          rating_crowd?: number | null
+          rating_faculty?: number | null
+          rating_infrastructure?: number | null
+          rating_overall?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_college_id_fkey"
+            columns: ["college_id"]
+            isOneToOne: false
+            referencedRelation: "colleges"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subjects: {
         Row: {

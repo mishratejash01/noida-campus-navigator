@@ -18,6 +18,8 @@ export const Navigation = () => {
         <div className="flex items-center gap-2">
           {[
             { to: "/colleges", icon: GraduationCap, label: "Colleges" },
+            { to: "/pulse", icon: Calendar, label: "Pulse" },
+            { to: "/housing", icon: BookOpen, label: "Housing" },
             { to: "/resources", icon: BookOpen, label: "Resources" },
             { to: "/internships", icon: Briefcase, label: "Internships" },
             { to: "/events", icon: Calendar, label: "Events" }
