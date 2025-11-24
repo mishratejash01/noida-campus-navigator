@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigation } from "@/components/Navigation";
+import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { Home, MapPin, DollarSign, Star } from "lucide-react";
