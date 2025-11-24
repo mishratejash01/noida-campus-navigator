@@ -1,238 +1,153 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Users, Star, MousePointerClick, ChevronDown } from "lucide-react";
-import { Navigation } from "@/components/Navigation";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import Counter from "@/components/ui/Counter";
 import Prism from "@/components/ui/Prism";
 
 const Home = () => {
+  const features = [
+    {
+      title: "College Reviews",
+      description: "Honest feedback from students about academics, infrastructure, and campus life.",
+      icon: Star,
+      link: "/colleges",
+      color: "text-yellow-500",
+      bg: "bg-yellow-50",
+    },
+    {
+      title: "Campus Pulse",
+      description: "Real-time anonymous feed to see what's buzzing on campus right now.",
+      icon: Users,
+      link: "/pulse",
+      color: "text-purple-500",
+      bg: "bg-purple-50",
+    },
+    {
+      title: "Events",
+      description: "Never miss a fest, workshop, or club meeting happening near you.",
+      icon: Calendar,
+      link: "/events",
+      color: "text-pink-500",
+      bg: "bg-pink-50",
+    },
+    {
+      title: "Notes & Resources",
+      description: "Shared study materials, past papers, and notes from top scorers.",
+      icon: BookOpen,
+      link: "/resources",
+      color: "text-blue-500",
+      bg: "bg-blue-50",
+    },
+    {
+      title: "Internships",
+      description: "Find local opportunities and gigs relevant to your field.",
+      icon: Briefcase,
+      link: "/internships",
+      color: "text-green-500",
+      bg: "bg-green-50",
+    },
+    {
+      title: "Housing",
+      description: "Find the best PGs, hostels, and flats near your college.",
+      icon: GraduationCap,
+      link: "/housing",
+      color: "text-orange-500",
+      bg: "bg-orange-50",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-      <Navigation />
-      
-      {/* Full Screen Hero with 3D Prism */}
-      <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-background">
+    <div className="min-h-screen bg-slate-50">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-white pb-16 pt-12 text-center shadow-sm lg:pt-20">
+        <div className="container mx-auto px-4">
+          <div className="relative z-10 mx-auto max-w-3xl space-y-6">
+            <div className="mx-auto w-fit rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium text-indigo-600">
+              🚀 Now live for all Noida colleges
+            </div>
+            <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
+              Survive <span className="text-indigo-600">College</span> <br /> Like a Pro.
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              The ultimate student companion app. Honest reviews, leaked mess menus, exam war rooms, and bunk calculators.
+            </p>
+            <div className="flex justify-center gap-4 pt-4">
+              <Button asChild size="lg" className="rounded-full bg-indigo-600 px-8 text-lg font-semibold hover:bg-indigo-700">
+                <Link to="/colleges">Explore Colleges <ArrowRight className="ml-2 h-5 w-5" /></Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-lg">
+                <Link to="/pulse">Check Pulse 📢</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
         
-        {/* LAYER 0: 3D Prism Background */}
-        {/* Added a radial gradient fallback in case 3D takes time to load */}
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-background to-background">
-           <Prism 
-             animationType="hover" 
-             scale={4.0} 
-             hueShift={0.2} 
-             glow={1.5}        // High glow for visibility
-             noise={0.1}
-             hoverStrength={1.5}
-           />
+        {/* Background Decorative Blobs */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+          <div className="h-[500px] w-[500px] rounded-full bg-indigo-100/50 blur-3xl"></div>
         </div>
-
-        {/* LAYER 10: Gradient Overlay */}
-        {/* Gradient fades from transparent (top) to background (bottom) to blend smoothly */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/5 to-background z-10 pointer-events-none" />
-
-        {/* LAYER 20: Hero Content */}
-        <div className="container relative z-20 text-center px-4 mt-16">
-          <div 
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-primary backdrop-blur-md mb-8 animate-fade-in"
-          >
-            <Star className="h-3.5 w-3.5 fill-primary" />
-            <span className="tracking-wide uppercase text-[10px] md:text-xs font-bold">The Premier Academic Ecosystem</span>
-          </div>
-
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 drop-shadow-2xl">
-            <span className="bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-              NOIDA
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-primary via-purple-400 to-primary bg-clip-text text-transparent text-5xl md:text-7xl">
-              CAMPUS NAVIGATOR
-            </span>
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-300 font-light mb-10 leading-relaxed drop-shadow-md">
-            Experience the future of student life. A unified digital compass connecting you to elite institutions, exclusive resources, and career-defining opportunities.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/colleges">
-              <Button size="lg" className="h-14 px-8 text-base rounded-full bg-white text-black hover:bg-gray-200 hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.3)] font-semibold">
-                Explore Directory
-              </Button>
-            </Link>
-            <Link to="/pulse">
-              <Button size="lg" variant="outline" className="h-14 px-8 text-base rounded-full border-white/20 bg-black/20 backdrop-blur-xl hover:bg-white/10 hover:border-white/40 transition-all text-white">
-                <MousePointerClick className="mr-2 h-4 w-4" />
-                Join Community
-              </Button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20">
-          <div className="flex flex-col items-center gap-2 text-gray-400 opacity-70">
-            <span className="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
-            <ChevronDown className="h-5 w-5" />
-          </div>
-        </div>
-      </section>
+      </div>
 
       {/* Features Grid */}
-      <section className="container py-24 relative z-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                to: "/colleges",
-                icon: GraduationCap,
-                title: "Elite Directory",
-                desc: "Curated list of Noida's finest affiliated universities and colleges.",
-                color: "text-purple-400"
-              },
-              {
-                to: "/resources",
-                icon: BookOpen,
-                title: "Premium Vault",
-                desc: "Exclusive access to notes, PYQs, and advanced study materials.",
-                color: "text-blue-400"
-              },
-              {
-                to: "/internships",
-                icon: Briefcase,
-                title: "Career Forge",
-                desc: "Connect with top-tier companies for internships and placements.",
-                color: "text-emerald-400"
-              },
-              {
-                to: "/events",
-                icon: Calendar,
-                title: "Exclusive Events",
-                desc: "Priority registration for workshops, hackathons, and summits.",
-                color: "text-amber-400"
-              }
-            ].map((item, index) => (
-              <Link to={item.to} key={index} className="group">
-                <Card className="h-full bg-secondary/20 border-white/5 backdrop-blur-sm hover:bg-secondary/40 hover:border-primary/30 transition-all duration-300 hover:-translate-y-2 shadow-lg">
-                  <CardHeader>
-                    <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-background/50 border border-white/10 ${item.color} shadow-inner group-hover:scale-110 transition-transform`}>
-                      <item.icon className="h-7 w-7" />
-                    </div>
-                    <CardTitle className="text-xl text-white group-hover:text-primary transition-colors">{item.title}</CardTitle>
-                    <CardDescription className="text-gray-400 leading-relaxed">
-                      {item.desc}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center text-sm font-medium text-primary/80 group-hover:text-primary group-hover:gap-3 transition-all">
-                      Explore <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+      <div className="container mx-auto px-4 py-16">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-800">Everything You Need</h2>
+          <p className="mt-2 text-slate-500">From academics to chilling, we've got you covered.</p>
         </div>
-      </section>
-
-      {/* Mission Section */}
-      <section className="py-32 bg-black/40 border-y border-white/5 relative">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-        <div className="container relative z-10">
-          <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <h2 className="text-5xl font-bold tracking-tight text-white">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">Legacy</span>
-              </h2>
-              <p className="text-lg text-gray-400 font-light leading-loose">
-                Noida College Compass wasn't built to just list colleges. It was engineered to eliminate fragmentation. We provide a unified, high-performance ecosystem for the ambitious student.
-              </p>
-              <ul className="space-y-6">
-                {[
-                  "Intelligent Filtering & Analytics",
-                  "Curated High-Performance Content",
-                  "Industry-Direct Connections"
-                ].map((text, i) => (
-                  <li key={i} className="flex items-center gap-4 text-white/90 group">
-                    <div className="h-px w-8 bg-primary group-hover:w-12 transition-all"></div>
-                    <span className="text-lg">{text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="relative h-[500px] w-full rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center group">
-              <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <Users className="h-32 w-32 text-white/20 group-hover:text-primary/50 transition-all duration-500 scale-110" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="container py-32">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl font-bold text-white mb-4">Voices of Excellence</h2>
-          <div className="h-1 w-20 bg-primary mx-auto rounded-full"></div>
-        </div>
-        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-          {[
-            { quote: "The definitive platform for academic resources. Unmatched quality.", author: "Rohan K.", role: "B.Tech Scholar" },
-            { quote: "Navigation so intuitive, it feels like an extension of my own workflow.", author: "Priya S.", role: "MBA Aspirant" },
-            { quote: "Secured a premium internship within days. This ecosystem works.", author: "Vivek M.", role: "Final Year" }
-          ].map((t, i) => (
-            <Card key={i} className="bg-transparent border border-white/10 hover:border-primary/50 transition-all duration-500 hover:bg-white/5">
-              <CardHeader>
-                <div className="flex text-accent mb-4">
-                  {[...Array(5)].map((_, starI) => (
-                    <Star key={starI} className="h-4 w-4 fill-current" />
-                  ))}
-                </div>
-                <p className="text-lg text-gray-300 italic mb-6">"{t.quote}"</p>
-                <div className="border-t border-white/5 pt-4">
-                  <CardTitle className="text-base text-white">{t.author}</CardTitle>
-                  <CardDescription className="text-primary">{t.role}</CardDescription>
-                </div>
-              </CardHeader>
-            </Card>
+        
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature) => (
+            <Link key={feature.title} to={feature.link}>
+              <Card className="h-full transition-all hover:-translate-y-1 hover:shadow-lg border-slate-100">
+                <CardHeader>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${feature.bg}`}>
+                    <feature.icon className={`h-6 w-6 ${feature.color}`} />
+                  </div>
+                  <CardTitle className="text-xl text-slate-800">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-slate-600 text-base">
+                    {feature.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
-      </section>
+      </div>
 
       {/* Stats Section */}
-      <section className="border-t border-white/5 bg-black py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
-        <div className="container relative">
-          <div className="mx-auto max-w-5xl">
-            <div className="grid gap-12 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
-              
-              <div className="text-center px-4">
-                <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={50} fontSize={48} className="text-white" />
-                  <span className="text-primary text-4xl ml-1">+</span>
-                </div>
-                <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Premium Institutions</div>
+      <div className="bg-slate-900 py-16 text-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
+            <div className="space-y-2">
+              <div className="text-4xl font-black text-indigo-400">
+                <Counter end={50} suffix="+" />
               </div>
-
-              <div className="text-center px-4">
-                <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={10000} places={[10000, 1000, 100, 10, 1]} fontSize={48} className="text-white" />
-                  <span className="text-primary text-4xl ml-1">+</span>
-                </div>
-                <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Ambitious Minds</div>
+              <div className="text-sm font-medium text-slate-400">Colleges Listed</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl font-black text-indigo-400">
+                <Counter end={2000} suffix="+" />
               </div>
-
-              <div className="text-center px-4">
-                <div className="text-5xl font-bold text-white mb-2 flex justify-center items-baseline">
-                  <Counter value={1000} places={[1000, 100, 10, 1]} fontSize={48} className="text-white" />
-                  <span className="text-primary text-4xl ml-1">+</span>
-                </div>
-                <div className="text-sm font-medium tracking-widest text-gray-500 uppercase mt-2">Curated Resources</div>
+              <div className="text-sm font-medium text-slate-400">Daily Users</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl font-black text-indigo-400">
+                <Counter end={500} suffix="+" />
               </div>
-
+              <div className="text-sm font-medium text-slate-400">Resources Shared</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl font-black text-indigo-400">
+                <Counter end={100} suffix="%" />
+              </div>
+              <div className="text-sm font-medium text-slate-400">Free to Use</div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
