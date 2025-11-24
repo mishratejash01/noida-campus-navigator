@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Navigation } from "@/components/Navigation";
+import Navigation from "@/components/Navigation";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, MapPin, Users, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
