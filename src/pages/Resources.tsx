@@ -1,4 +1,4 @@
-import { Navigation } from "@/components/Navigation";
+import Navigation from "@/components/Navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, FileText, FileQuestion, BookMarked, Info } from "lucide-react";
 
