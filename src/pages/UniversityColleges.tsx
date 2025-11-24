@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Navigation } from "@/components/Navigation";
+import Navigation from "@/components/Navigation";
 import { supabase } from "@/integrations/supabase/client";
 import { Building2, ArrowLeft, MapPin, Calendar, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
