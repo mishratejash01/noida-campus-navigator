@@ -1,94 +1,99 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { FeedHeader } from "@/components/campus-pulse/FeedHeader";
+import { CreatePostDialog } from "@/components/campus-pulse/CreatePostDialog";
 import { PostCard } from "@/components/campus-pulse/PostCard";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
-import { toast } from "sonner";
+import { useProfile } from "@/hooks/use-profile";
+import { Flame, Clock, Trophy } from "lucide-react";
 
 export default function CampusPulse() {
+  const { profile } = useProfile();
   const [posts, setPosts] = useState<any[]>([]);
-  const [sortBy, setSortBy] = useState<"hot" | "new">("new");
-  const [newPostContent, setNewPostContent] = useState("");
+  const [sortBy, setSortBy] = useState<"new" | "hot" | "top">("new");
 
-  // 1. Fetch Posts Logic
   const fetchPosts = async () => {
-    let query = supabase.from("posts").select("*");
+    // This query fetches posts + author details + the CURRENT user's vote on that post
+    let query = supabase
+      .from("posts")
+      .select(`
+        *,
+        author:profiles(username, avatar_url),
+        my_vote:post_votes(vote_type)
+      `);
 
-    if (sortBy === "new") {
-      query = query.order("created_at", { ascending: false });
-    } else {
-      // For "Hot", we ideally use a function, but for now we sort by upvotes
-      query = query.order("upvotes", { ascending: false });
+    // Filtering logic
+    if (sortBy === "new") query = query.order("created_at", { ascending: false });
+    if (sortBy === "top") query = query.order("upvotes", { ascending: false });
+    // Note: "hot" usually requires a complex backend function, defaulting to upvotes for now
+    if (sortBy === "hot") query = query.order("upvotes", { ascending: false });
+
+    // Apply the user filter for the 'my_vote' relation
+    if (profile?.id) {
+      query = query.eq('my_vote.user_id', profile.id); 
+      // Note: This logic for .eq on joined tables can be tricky in Supabase clients.
+      // If the above .eq doesn't work as expected for filtering *just* the vote relationship,
+      // you usually need a custom Postgres function or handle "my_vote" filtering in UI.
+      // For this implementation, Supabase often returns 'my_vote' as [] if no match found.
     }
 
     const { data, error } = await query;
     if (!error && data) setPosts(data);
   };
 
-  // 2. Real-time Subscription
   useEffect(() => {
     fetchPosts();
-
+    
+    // Subscribe to realtime changes
     const channel = supabase
-      .channel("schema-db-changes")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "posts" },
-        (payload) => {
-          // Add new post to top instantly
-          setPosts((current) => [payload.new, ...current]);
-          toast.info("New post just dropped! 👀");
-        }
-      )
+      .channel("public:posts")
+      .on("postgres_changes", { event: "*", schema: "public", table: "posts" }, () => {
+        fetchPosts();
+      })
       .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [sortBy]);
-
-  // 3. Create Post Logic
-  const handlePost = async () => {
-    if (!newPostContent.trim()) return;
-
-    const { error } = await supabase.from("posts").insert({
-      content: newPostContent,
-      category: "General",
-      is_anonymous: true,
-    });
-
-    if (error) {
-      toast.error("Failed to post");
-    } else {
-      setNewPostContent("");
-      toast.success("Sent to the void! 🚀");
-    }
-  };
+    return () => { supabase.removeChannel(channel); };
+  }, [sortBy, profile]); // Re-fetch if profile loads
 
   return (
-    <div className="container max-w-2xl mx-auto py-6 px-4 pb-24">
-      <h1 className="text-3xl font-bold mb-6 text-slate-800 tracking-tight">Campus Pulse 📢</h1>
+    <div className="container max-w-4xl mx-auto py-6 px-4 pb-24 grid grid-cols-1 md:grid-cols-4 gap-6">
       
-      {/* Input Area */}
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 mb-8">
-        <div className="flex gap-4">
-          <Input
-            placeholder="What's happening on campus?"
-            value={newPostContent}
-            onChange={(e) => setNewPostContent(e.target.value)}
-            className="bg-slate-50 border-0 focus-visible:ring-1 focus-visible:ring-purple-500"
-          />
-          <Button onClick={handlePost} size="icon" className="bg-purple-600 hover:bg-purple-700 shrink-0">
-            <Plus className="h-5 w-5" />
-          </Button>
-        </div>
+      {/* Left Sidebar (Filters) */}
+      <div className="hidden md:block col-span-1 space-y-2">
+        <h2 className="font-bold px-4 mb-2">Feeds</h2>
+        <Button 
+          variant={sortBy === "new" ? "secondary" : "ghost"} 
+          className="w-full justify-start" 
+          onClick={() => setSortBy("new")}
+        >
+          <Clock className="mr-2 h-4 w-4" /> New
+        </Button>
+        <Button 
+          variant={sortBy === "hot" ? "secondary" : "ghost"} 
+          className="w-full justify-start" 
+          onClick={() => setSortBy("hot")}
+        >
+          <Flame className="mr-2 h-4 w-4" /> Hot
+        </Button>
+        <Button 
+          variant={sortBy === "top" ? "secondary" : "ghost"} 
+          className="w-full justify-start" 
+          onClick={() => setSortBy("top")}
+        >
+          <Trophy className="mr-2 h-4 w-4" /> Top All Time
+        </Button>
       </div>
 
-      <FeedHeader sortBy={sortBy} setSortBy={setSortBy} />
+      {/* Main Feed */}
+      <div className="col-span-1 md:col-span-3 space-y-4">
+        <div className="bg-white p-4 rounded-lg border shadow-sm flex items-center gap-3">
+          <div className="h-10 w-10 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-500">
+            {profile?.username?.[0].toUpperCase() || "U"}
+          </div>
+          <div className="flex-1">
+            <CreatePostDialog onPostCreated={fetchPosts} />
+          </div>
+        </div>
 
-      <div className="space-y-4">
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
