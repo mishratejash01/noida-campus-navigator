@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Loader2, Users, Ghost, X } from "lucide-react";
+import { Plus, Loader2, Users, Ghost, X, ChevronDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/hooks/use-profile";
 import { toast } from "sonner";
@@ -17,12 +16,9 @@ export function CreatePostDialog({ onPostCreated }: { onPostCreated: () => void 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   
-  // Form State
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
-  
-  // Community Selection State
   const [communities, setCommunities] = useState<{id: string, name: string}[]>([]);
   const [selectedCommunityId, setSelectedCommunityId] = useState<string>("");
 
@@ -31,9 +27,7 @@ export function CreatePostDialog({ onPostCreated }: { onPostCreated: () => void 
       const { data } = await supabase.from("communities").select("id, name").order("name");
       if (data) {
         setCommunities(data);
-        if(data.length > 0 && !selectedCommunityId) {
-           setSelectedCommunityId(data[0].id); 
-        }
+        if(data.length > 0 && !selectedCommunityId) setSelectedCommunityId(data[0].id); 
       }
     };
     fetchCommunities();
@@ -71,106 +65,102 @@ export function CreatePostDialog({ onPostCreated }: { onPostCreated: () => void 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
+        {/* TRIGGER BAR: Dark Glass Effect */}
         <div className="w-full cursor-pointer group">
-          <div className="bg-white border border-slate-200 hover:border-indigo-300 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-4 flex items-center gap-4">
-            <Avatar className="h-10 w-10 border border-slate-100">
+          <div className="relative overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 hover:border-primary/50 transition-all duration-300 rounded-2xl p-4 flex items-center gap-4 hover:bg-white/10 hover:shadow-lg hover:shadow-primary/10">
+            <Avatar className="h-10 w-10 border border-white/10 ring-2 ring-transparent group-hover:ring-primary/50 transition-all">
               <AvatarImage src={profile?.avatar_url || undefined} />
-              <AvatarFallback className="bg-indigo-50 text-indigo-600 font-bold">
+              <AvatarFallback className="bg-primary/20 text-primary font-bold">
                  {profile?.username?.[0]?.toUpperCase() || "U"}
               </AvatarFallback>
             </Avatar>
-            <div className="flex-1 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 rounded-full h-11 px-5 flex items-center text-slate-400 font-medium transition-all">
-              Create a post...
+            <div className="flex-1 text-zinc-400 font-medium group-hover:text-zinc-200 transition-colors">
+              Spark a discussion...
             </div>
-            <Button size="icon" className="rounded-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-200 shrink-0 h-10 w-10">
+            <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-inner">
               <Plus className="h-5 w-5" />
-            </Button>
+            </div>
           </div>
         </div>
       </DialogTrigger>
       
-      <DialogContent className="sm:max-w-[650px] p-0 gap-0 overflow-hidden bg-white border-0 shadow-2xl sm:rounded-2xl">
+      {/* DIALOG CONTENT: Deep Dark Theme */}
+      <DialogContent className="sm:max-w-[650px] p-0 gap-0 overflow-hidden bg-[#0A0A0B] border border-white/10 shadow-2xl shadow-black/80 sm:rounded-2xl">
         
-        {/* HEADER: Community & User Context */}
-        <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100 bg-slate-50/50">
+        {/* HEADER */}
+        <div className="px-6 py-4 flex items-center justify-between border-b border-white/5 bg-black/20">
            <div className="flex items-center gap-3">
               <Select value={selectedCommunityId} onValueChange={setSelectedCommunityId}>
-                <SelectTrigger className="h-9 min-w-[160px] bg-white border-slate-200 hover:border-indigo-300 text-slate-700 font-medium rounded-full shadow-sm focus:ring-0 focus:ring-offset-0 px-4">
+                <SelectTrigger className="h-9 min-w-[160px] bg-white/5 border-white/10 hover:bg-white/10 hover:border-primary/50 text-zinc-200 font-medium rounded-full shadow-none focus:ring-0 focus:ring-offset-0 px-4 transition-all">
                    <div className="flex items-center gap-2">
-                     <div className="bg-indigo-100 p-1 rounded-full">
-                       <Users className="h-3 w-3 text-indigo-600" />
-                     </div>
-                     <SelectValue placeholder="Choose Community" />
+                     <Users className="h-3.5 w-3.5 text-primary" />
+                     <SelectValue placeholder="Community" />
                    </div>
                 </SelectTrigger>
-                <SelectContent className="max-h-[300px]">
+                <SelectContent className="bg-[#121214] border-white/10 text-zinc-200">
                   {communities.map((c) => (
-                    <SelectItem key={c.id} value={c.id} className="font-medium cursor-pointer py-3">
-                      <span className="text-slate-500 mr-1">c/</span>{c.name}
+                    <SelectItem key={c.id} value={c.id} className="focus:bg-primary/20 focus:text-white cursor-pointer py-2.5">
+                      <span className="text-zinc-500 mr-1.5">c/</span>{c.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
            </div>
 
-           <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="text-slate-400 hover:text-slate-600 rounded-full">
-             <X className="h-5 w-5" />
+           <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="text-zinc-500 hover:text-white hover:bg-white/10 rounded-full h-8 w-8">
+             <X className="h-4 w-4" />
            </Button>
         </div>
 
-        {/* MAIN EDITOR */}
-        <div className="p-6 md:p-8 flex flex-col gap-4 bg-white min-h-[320px]">
+        {/* EDITOR AREA */}
+        <div className="p-6 md:p-8 flex flex-col gap-5 bg-[#0A0A0B]">
           
-          {/* Title Input - Huge & Bold */}
           <Input 
-            placeholder="Give it a catchy title..." 
+            placeholder="An interesting title..." 
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="text-3xl font-bold border-none shadow-none focus-visible:ring-0 px-0 placeholder:text-slate-300 h-auto leading-tight"
+            className="text-2xl md:text-3xl font-bold bg-transparent border-none shadow-none focus-visible:ring-0 px-0 placeholder:text-zinc-600 text-white h-auto leading-tight tracking-tight"
           />
           
-          {/* Content Input - Spacious */}
           <Textarea 
-            placeholder="Share your thoughts, ask a question, or tell a story..." 
+            placeholder="Share your thoughts, ask for advice, or tell a story..." 
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="flex-1 min-h-[200px] resize-none border-none shadow-none focus-visible:ring-0 px-0 text-lg text-slate-600 placeholder:text-slate-300 leading-relaxed -ml-1"
+            className="flex-1 min-h-[200px] resize-none bg-transparent border-none shadow-none focus-visible:ring-0 px-0 text-lg text-zinc-300 placeholder:text-zinc-700 leading-relaxed -ml-1"
           />
 
         </div>
 
-        {/* FOOTER: Actions */}
-        <div className="p-4 px-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* FOOTER */}
+        <div className="p-4 px-6 bg-black/40 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-sm">
           
-          {/* Left: Options */}
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-             <div 
-               className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all border ${
-                 isAnonymous 
-                   ? "bg-slate-800 border-slate-800 text-white" 
-                   : "bg-white border-slate-200 text-slate-600 hover:bg-slate-100"
-               }`}
-               onClick={() => setIsAnonymous(!isAnonymous)}
-             >
-                <Ghost className="h-4 w-4" />
-                <span className="text-sm font-medium">Anonymous</span>
-                <Switch 
-                  checked={isAnonymous}
-                  onCheckedChange={setIsAnonymous}
-                  className="ml-1 scale-75 data-[state=checked]:bg-slate-500"
-                />
-             </div>
-          </div>
+          {/* ANONYMOUS TOGGLE */}
+          <div 
+             className={`flex items-center gap-3 px-4 py-2 rounded-full cursor-pointer transition-all border ${
+               isAnonymous 
+                 ? "bg-primary/20 border-primary/50 text-primary" 
+                 : "bg-white/5 border-white/5 text-zinc-400 hover:bg-white/10"
+             }`}
+             onClick={() => setIsAnonymous(!isAnonymous)}
+           >
+              <Ghost className="h-4 w-4" />
+              <span className="text-sm font-medium">Anonymous</span>
+              <Switch 
+                checked={isAnonymous}
+                onCheckedChange={setIsAnonymous}
+                className="ml-1 scale-75 data-[state=checked]:bg-primary data-[state=unchecked]:bg-zinc-700"
+              />
+           </div>
 
-          {/* Right: Post Button */}
+          {/* ACTIONS */}
           <div className="flex gap-3 w-full sm:w-auto">
-             <Button variant="ghost" onClick={() => setOpen(false)} className="flex-1 sm:flex-none text-slate-500 hover:bg-slate-200">
+             <Button variant="ghost" onClick={() => setOpen(false)} className="flex-1 sm:flex-none text-zinc-400 hover:text-white hover:bg-white/10">
                Cancel
              </Button>
              <Button 
                onClick={handleSubmit} 
                disabled={loading || !title || !content}
-               className="flex-1 sm:flex-none bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-200 px-8 transition-all hover:scale-105 active:scale-95"
+               className="flex-1 sm:flex-none bg-primary hover:bg-primary/90 text-white font-semibold shadow-[0_0_15px_rgba(124,58,237,0.3)] px-8 rounded-lg transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100"
              >
                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Post"}
              </Button>
