@@ -7,11 +7,11 @@ const Navigation = () => {
 
   const links = [
     { to: "/", label: "Home", icon: Home },
-    { to: "/pulse", label: "Pulse", icon: Activity }, // Moved Pulse earlier for visibility
+    { to: "/pulse", label: "Pulse", icon: Activity },
     { to: "/colleges", label: "Colleges", icon: Building2 },
-    { to: "/marketplace", label: "Market", icon: ShoppingBag }, // New
-    { to: "/survival", label: "Survival", icon: ShieldAlert }, // New
-    { to: "/fun", label: "Fun Zone", icon: Gamepad2 }, // New
+    { to: "/marketplace", label: "Market", icon: ShoppingBag },
+    { to: "/survival", label: "Survival", icon: ShieldAlert },
+    { to: "/fun", label: "Fun", icon: Gamepad2 },
     { to: "/events", label: "Events", icon: Calendar },
     { to: "/housing", label: "Housing", icon: HomeIcon },
     { to: "/resources", label: "Notes", icon: BookOpen },
@@ -19,34 +19,36 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="container flex h-16 items-center overflow-x-auto no-scrollbar px-4">
-        <div className="mr-4 hidden md:flex">
-          <Link to="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">NoidaCampus</span>
-          </Link>
-        </div>
-        
-        {/* Mobile & Desktop Menu */}
-        <div className="flex w-full items-center justify-between md:justify-end gap-1 md:gap-2">
-          {links.map(({ to, label, icon: Icon }) => (
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-4 pointer-events-none">
+      <nav className="pointer-events-auto mx-auto flex items-center justify-between gap-2 rounded-2xl border border-white/10 bg-black/60 p-2 shadow-2xl backdrop-blur-xl supports-[backdrop-filter]:bg-black/30 overflow-x-auto no-scrollbar">
+        {links.map(({ to, label, icon: Icon }) => {
+          const isActive = location.pathname === to;
+          return (
             <Link
               key={to}
               to={to}
               className={cn(
-                "flex flex-col md:flex-row items-center justify-center md:justify-start rounded-md px-3 py-2 text-xs md:text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground min-w-[60px] md:min-w-0",
-                location.pathname === to
-                  ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground"
+                "group relative flex min-w-[64px] flex-col items-center justify-center rounded-xl px-3 py-2.5 transition-all duration-300 hover:bg-white/10",
+                isActive ? "text-white" : "text-zinc-400 hover:text-zinc-100"
               )}
             >
-              <Icon className="h-5 w-5 md:mr-2 md:h-4 md:w-4" />
-              <span className="mt-1 md:mt-0">{label}</span>
+              <div className={cn(
+                "mb-1 transition-transform duration-300 group-hover:-translate-y-0.5",
+                isActive && "-translate-y-0.5"
+              )}>
+                <Icon className={cn("h-5 w-5", isActive ? "text-primary fill-primary/20" : "")} />
+              </div>
+              <span className="text-[10px] font-medium tracking-wide opacity-80">{label}</span>
+              
+              {/* Active Indicator */}
+              {isActive && (
+                <span className="absolute bottom-1 h-1 w-8 rounded-full bg-primary shadow-[0_0_10px_rgba(124,58,237,0.5)]" />
+              )}
             </Link>
-          ))}
-        </div>
-      </div>
-    </nav>
+          );
+        })}
+      </nav>
+    </div>
   );
 };
 
