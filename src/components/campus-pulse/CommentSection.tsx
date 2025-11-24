@@ -29,7 +29,7 @@ export function CommentSection({ postId }: { postId: string }) {
       `)
       .eq("post_id", postId)
       .order("created_at", { ascending: true });
-    
+
     if (data) setComments(data);
   };
 
@@ -56,7 +56,6 @@ export function CommentSection({ postId }: { postId: string }) {
 
   return (
     <div className="space-y-4">
-      {/* Input */}
       <div className="flex gap-3">
         <Textarea 
           value={newComment} 
@@ -69,7 +68,6 @@ export function CommentSection({ postId }: { postId: string }) {
         </Button>
       </div>
 
-      {/* List */}
       <div className="space-y-4 mt-4">
         {comments.map((comment) => (
           <div key={comment.id} className="flex gap-3">
