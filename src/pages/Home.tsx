@@ -1,115 +1,117 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Users, Star, MousePointerClick, ChevronDown } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GraduationCap, BookOpen, Briefcase, Calendar, ArrowRight, Users, Star, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Counter from "@/components/ui/Counter";
-import Prism from "@/components/ui/Prism";
 
 const Home = () => {
   const features = [
     {
       title: "College Reviews",
-      description: "Honest feedback from students about academics, infrastructure, and campus life.",
+      description: "Unfiltered truths about academics & campus life.",
       icon: Star,
       link: "/colleges",
-      color: "text-yellow-500",
-      bg: "bg-yellow-50",
+      gradient: "from-yellow-500/20 to-orange-500/20",
+      text: "text-yellow-500",
     },
     {
       title: "Campus Pulse",
-      description: "Real-time anonymous feed to see what's buzzing on campus right now.",
+      description: "Anonymous feed. See what's actually buzzing.",
       icon: Users,
       link: "/pulse",
-      color: "text-purple-500",
-      bg: "bg-purple-50",
+      gradient: "from-purple-500/20 to-indigo-500/20",
+      text: "text-purple-500",
     },
     {
-      title: "Events",
-      description: "Never miss a fest, workshop, or club meeting happening near you.",
+      title: "Events Radar",
+      description: "Fests, workshops, and nightlife near you.",
       icon: Calendar,
       link: "/events",
-      color: "text-pink-500",
-      bg: "bg-pink-50",
+      gradient: "from-pink-500/20 to-rose-500/20",
+      text: "text-pink-500",
     },
     {
-      title: "Notes & Resources",
-      description: "Shared study materials, past papers, and notes from top scorers.",
+      title: "War Room",
+      description: "Past papers and notes from the toppers.",
       icon: BookOpen,
       link: "/resources",
-      color: "text-blue-500",
-      bg: "bg-blue-50",
+      gradient: "from-blue-500/20 to-cyan-500/20",
+      text: "text-blue-500",
     },
     {
-      title: "Internships",
-      description: "Find local opportunities and gigs relevant to your field.",
+      title: "Gig Finder",
+      description: "Internships and hustles for students.",
       icon: Briefcase,
       link: "/internships",
-      color: "text-green-500",
-      bg: "bg-green-50",
+      gradient: "from-emerald-500/20 to-green-500/20",
+      text: "text-emerald-500",
     },
     {
-      title: "Housing",
-      description: "Find the best PGs, hostels, and flats near your college.",
+      title: "Housing Hunt",
+      description: "Best PGs and flats, vetted by seniors.",
       icon: GraduationCap,
       link: "/housing",
-      color: "text-orange-500",
-      bg: "bg-orange-50",
+      gradient: "from-orange-500/20 to-red-500/20",
+      text: "text-orange-500",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="relative min-h-screen overflow-hidden pb-32">
+      {/* Dynamic Background Elements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/20 blur-[120px] rounded-full pointer-events-none opacity-50" />
+      
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-white pb-16 pt-12 text-center shadow-sm lg:pt-20">
-        <div className="container mx-auto px-4">
-          <div className="relative z-10 mx-auto max-w-3xl space-y-6">
-            <div className="mx-auto w-fit rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium text-indigo-600">
-              🚀 Now live for all Noida colleges
-            </div>
-            <h1 className="text-4xl font-black tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
-              Survive <span className="text-indigo-600">College</span> <br /> Like a Pro.
-            </h1>
-            <p className="mx-auto max-w-2xl text-lg text-slate-600">
-              The ultimate student companion app. Honest reviews, leaked mess menus, exam war rooms, and bunk calculators.
-            </p>
-            <div className="flex justify-center gap-4 pt-4">
-              <Button asChild size="lg" className="rounded-full bg-indigo-600 px-8 text-lg font-semibold hover:bg-indigo-700">
-                <Link to="/colleges">Explore Colleges <ArrowRight className="ml-2 h-5 w-5" /></Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-lg">
-                <Link to="/pulse">Check Pulse 📢</Link>
-              </Button>
-            </div>
-          </div>
+      <div className="relative z-10 container mx-auto px-4 pt-20 pb-32 text-center">
+        <div className="animate-float inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary backdrop-blur-md mb-8">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+          </span>
+          Live for all Noida colleges
         </div>
         
-        {/* Background Decorative Blobs */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-          <div className="h-[500px] w-[500px] rounded-full bg-indigo-100/50 blur-3xl"></div>
+        <h1 className="mx-auto max-w-4xl text-5xl font-black tracking-tight text-white sm:text-7xl lg:text-8xl mb-6">
+          Survive College <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-pink-500 animate-shimmer bg-[length:200%_auto]">
+            Like a Pro.
+          </span>
+        </h1>
+        
+        <p className="mx-auto max-w-2xl text-xl text-zinc-400 mb-10 leading-relaxed">
+          The ultimate companion for the modern student. Leaked menus, honest reviews, and the tools you need to dominate campus life.
+        </p>
+        
+        <div className="flex flex-wrap justify-center gap-4">
+          <Button asChild size="lg" className="rounded-full h-14 px-8 text-lg bg-white text-black hover:bg-zinc-200 transition-all hover:scale-105">
+            <Link to="/colleges">Explore Colleges</Link>
+          </Button>
+          <Button asChild variant="outline" size="lg" className="rounded-full h-14 px-8 text-lg border-white/10 bg-black/40 backdrop-blur-md text-white hover:bg-white/10 transition-all hover:scale-105">
+            <Link to="/pulse">Check Pulse 📢</Link>
+          </Button>
         </div>
       </div>
 
-      {/* Features Grid */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-800">Everything You Need</h2>
-          <p className="mt-2 text-slate-500">From academics to chilling, we've got you covered.</p>
-        </div>
-        
+      {/* Bento Grid Features */}
+      <div className="container mx-auto px-4 mb-32">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
-            <Link key={feature.title} to={feature.link}>
-              <Card className="h-full transition-all hover:-translate-y-1 hover:shadow-lg border-slate-100">
+            <Link key={feature.title} to={feature.link} className="group relative block h-full">
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100 blur-xl`} />
+              <Card className="relative h-full overflow-hidden border-white/10 bg-zinc-900/50 backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-white/20">
                 <CardHeader>
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${feature.bg}`}>
-                    <feature.icon className={`h-6 w-6 ${feature.color}`} />
+                  <div className="flex justify-between items-start mb-2">
+                    <div className={`p-3 rounded-xl bg-white/5 w-fit ${feature.text}`}>
+                      <feature.icon className="h-6 w-6" />
+                    </div>
+                    <ArrowUpRight className="text-zinc-600 group-hover:text-white transition-colors" />
                   </div>
-                  <CardTitle className="text-xl text-slate-800">{feature.title}</CardTitle>
+                  <CardTitle className="text-xl font-bold text-zinc-100">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-slate-600 text-base">
+                  <p className="text-zinc-400 leading-relaxed">
                     {feature.description}
-                  </CardDescription>
+                  </p>
                 </CardContent>
               </Card>
             </Link>
@@ -117,34 +119,23 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="bg-slate-900 py-16 text-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-            <div className="space-y-2">
-              <div className="text-4xl font-black text-indigo-400">
-                <Counter end={50} suffix="+" />
+      {/* Glass Stats Section */}
+      <div className="container mx-auto px-4 mb-20">
+        <div className="rounded-3xl border border-white/10 bg-black/40 backdrop-blur-xl p-12">
+          <div className="grid grid-cols-2 gap-12 text-center md:grid-cols-4">
+            {[
+              { label: "Colleges Listed", value: 50, suffix: "+" },
+              { label: "Daily Users", value: 2000, suffix: "+" },
+              { label: "Resources", value: 500, suffix: "+" },
+              { label: "Free Forever", value: 100, suffix: "%" },
+            ].map((stat, i) => (
+              <div key={i} className="space-y-2">
+                <div className="text-4xl font-black text-white md:text-5xl">
+                  <Counter end={stat.value} suffix={stat.suffix} />
+                </div>
+                <div className="text-sm font-medium uppercase tracking-wider text-zinc-500">{stat.label}</div>
               </div>
-              <div className="text-sm font-medium text-slate-400">Colleges Listed</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl font-black text-indigo-400">
-                <Counter end={2000} suffix="+" />
-              </div>
-              <div className="text-sm font-medium text-slate-400">Daily Users</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl font-black text-indigo-400">
-                <Counter end={500} suffix="+" />
-              </div>
-              <div className="text-sm font-medium text-slate-400">Resources Shared</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl font-black text-indigo-400">
-                <Counter end={100} suffix="%" />
-              </div>
-              <div className="text-sm font-medium text-slate-400">Free to Use</div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
