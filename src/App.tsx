@@ -14,7 +14,6 @@ import Housing from "./pages/Housing";
 import Resources from "./pages/Resources";
 import Internships from "./pages/Internships";
 import CampusPulse from "./pages/CampusPulse";
-// New Imports
 import Marketplace from "./pages/Marketplace";
 import Survival from "./pages/Survival";
 import FunZone from "./pages/FunZone";
@@ -27,9 +26,10 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="min-h-screen flex flex-col bg-slate-50/50">
+        {/* Removed bg-slate-50, added text-foreground for global text color */}
+        <div className="min-h-screen flex flex-col text-foreground">
           <Navigation />
-          <div className="flex-grow pt-4">
+          <div className="flex-grow">
              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/colleges" element={<Colleges />} />
@@ -40,12 +40,9 @@ const App = () => (
               <Route path="/resources" element={<Resources />} />
               <Route path="/internships" element={<Internships />} />
               <Route path="/pulse" element={<CampusPulse />} />
-              
-              {/* New Routes */}
               <Route path="/marketplace" element={<Marketplace />} />
               <Route path="/survival" element={<Survival />} />
               <Route path="/fun" element={<FunZone />} />
-              
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
