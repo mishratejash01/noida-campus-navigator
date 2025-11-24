@@ -4,36 +4,37 @@
 
 @layer base {
   :root {
-    /* Premium Dark Theme Variables */
-    --background: 240 10% 3.9%; /* Very dark, almost black */
-    --foreground: 0 0% 98%;     /* Pure white text */
+    /* Premium Deep Dark Theme */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;       /* Match background for seamless look */
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
 
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 263.4 70% 50.4%; /* Royal Violet/Purple */
+    /* Vivid Violet/Indigo Accent */
+    --primary: 267 75% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 240 3.7% 15.9%; /* Dark gray for secondary elements */
+    --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
 
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 47 95% 55%;       /* Gold accent for premium feel */
-    --accent-foreground: 144.9 80.4% 10%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --ring: 267 75% 60%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
   }
 }
 
@@ -42,26 +43,19 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased;
-    /* Add a subtle noise texture or gradient for immersion */
-    background-image: radial-gradient(circle at top center, rgba(56, 31, 102, 0.15), transparent 40%);
+    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+    /* Premium background mesh */
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.15), transparent 60%),
+      radial-gradient(circle at 0% 50%, rgba(56, 31, 102, 0.1), transparent 50%);
   }
 }
 
-/* Custom Scrollbar for that premium feel */
-::-webkit-scrollbar {
-  width: 8px;
+/* Glassmorphism Utilities */
+.glass {
+  @apply bg-black/40 backdrop-blur-xl border border-white/10 shadow-lg;
 }
 
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--secondary));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary));
+.glass-card {
+  @apply bg-zinc-900/50 backdrop-blur-md border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1;
 }
