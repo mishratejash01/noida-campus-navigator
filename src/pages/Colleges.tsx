@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Navigation } from "@/components/Navigation";
 import { supabase } from "@/integrations/supabase/client";
 import { Building2, ExternalLink, MapPin } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -40,7 +39,7 @@ const Colleges = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      {/* Navigation removed from here because it's in App.tsx now */}
       
       <div className="container py-12">
         <div className="mb-8">
